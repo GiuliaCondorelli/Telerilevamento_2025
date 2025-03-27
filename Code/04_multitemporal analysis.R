@@ -43,3 +43,35 @@ install.packages("ggridges")  # this is needed to create ridgeline plots
 im.ridgeline(gr, scale=1)
 im.ridgeline(gr, scale=2)
 im.ridgeline(gr, scale=2, palette="inferno")
+
+
+im.list()
+
+# Exercise: import the NDVI 
+NDVI = im.import("Sentinel2")
+im.ridgeline(NDVI, scale = 2)
+
+# Changing names
+# sources   : Sentinel2_NDVI_2020-02-21.tif  
+#             Sentinel2_NDVI_2020-05-21.tif  
+#             Sentinel2_NDVI_2020-08-01.tif  
+#             Sentinel2_NDVI_2020-11-27.tif  
+
+names(NDVI) = c("02_Feb", "05_May","08_Aug", "11_Nov")
+pairs(NDVI)
+plot (NDVI[[1]], NDVI [[2]])
+# y = x  # may y, feb x
+# y= a + bx
+# a=0, b=1
+# y = a+ bx = 0 + 1x = x
+
+abline(0, 1, col="red")
+
+plot(NDVI[[1]], NDVI [[2]], xlim=c(-0.3,0.9), ylim=c(-0.3,0.9))
+abline(0, 1, col="red")
+
+im.multiframe(1,3)
+plot(NDVI[[1]])
+plot(NDVI[[2]])
+plot(NDVI[[1]], NDVI [[2]], xlim=c(-0.3,0.9), ylim=c(-0.3,0.9))
+abline(0, 1, col="red")
