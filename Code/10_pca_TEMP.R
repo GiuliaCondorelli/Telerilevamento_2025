@@ -9,7 +9,6 @@ sent= im.import("sentinel.png")
 sent=flip(sent)
 plot(sent)
 
-
 sent=c(sent[[1]], sent[[2]], sent[[3]])
 plot(sent)
 
@@ -18,7 +17,6 @@ plot(sent)
 # green = band 3
 
 sentpca = im.pca(sent)  # posso aggiungere n_samples per stabilizzare i valori
-
 
 tot= 77+57+5
 # 139
