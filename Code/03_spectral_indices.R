@@ -4,17 +4,17 @@ library(imageRy)
 library(terra)
 library(viridis)
 
-
 im.list()
 
 mato1992=im.import("matogrosso_15_1992219_lrg.jpg")
 mato1992=flip(mato1992)
+plot(mato1992)
 
 # 1=NIR
 # 2=red
 # 3=green
 
-im.plotRGB(mato1992,r=1,g=2,b=3)
+im.plotRGB(mato1992, r=1, g=2, b=3)
 im.plotRGB(mato1992, r=2, g=1, b=3)
 im.plotRGB(mato1992, r=2, g=3, b=1)
 
@@ -69,7 +69,6 @@ plot(dvi1992)
 plot(dvi1992, col=inferno(100))
 
 # Calculate dvi for 2006
-
 dvi2006 = mato2006 [[1]] - mato2006[[2]] # NIR - red
 plot(dvi2006)
 plot(dvi2006, col=inferno(100))
