@@ -1,3 +1,5 @@
+# This code helps exporting graphs to images
+
 # Exporting data
 setwd("/Users/ducciorocchini/Downloads")
 setwd("~/Desktop")
