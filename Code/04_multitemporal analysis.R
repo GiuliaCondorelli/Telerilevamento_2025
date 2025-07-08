@@ -1,10 +1,12 @@
-
 # R code for performing multitemporal analysis
 
+# install.packages("ggridges") # this is needed to create ridgeline plots
 library(imageRy)
 library(terra)
 library(viridis)
+# library(ggridges)
 
+# Listing the data
 im.list()
 
 EN_01 = im.import("EN_01.png")
@@ -38,7 +40,6 @@ grdif = gr[[4]] - gr[[1]] # 2015 - 2000
 plot(grdif)
 # All the yellow parts are those in which there is a higher value in 2015
 
-install.packages("ggridges")  # this is needed to create ridgeline plots
 # Ridgeline plots
 im.ridgeline(gr, scale=1)
 im.ridgeline(gr, scale=2)
@@ -58,7 +59,11 @@ im.ridgeline(NDVI, scale = 2)
 #             Sentinel2_NDVI_2020-11-27.tif  
 
 names(NDVI) = c("02_Feb", "05_May","08_Aug", "11_Nov")
+im.ridgeline(ndvi, scale=2)
+im.ridgeline(ndvi, scale=2, palette="mako")
+
 pairs(NDVI)
+
 plot (NDVI[[1]], NDVI [[2]])
 # y = x  # may y, feb x
 # y= a + bx
