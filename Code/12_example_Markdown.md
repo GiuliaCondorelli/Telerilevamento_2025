@@ -1,51 +1,61 @@
+
 # Exam project title: title
 
 ## Data gathering
 
-data were gathered from the [Earth Observatory site] (https://earthobservatory.nasa.gov/).
+Data were gathered from the [Earth Observatory site](https://earthobservatory.nasa.gov/).
 
 Packages used:
 
-` ` `r
+``` r
 library(terra)
 library(imageRy)
-library(viridis) # in order to plot 
-` ` ` 
-setting the working directory and importing the data:
+library(viridis) # in order to plot images with different viridis color ramp palettes
+```
 
-` ` ` r
-setwd("~//")    tra gli slash devi mettere la tua working directory 
-fires=rast("fires.jpg")
+Setting the working directory and importing the data:
+
+``` r
+setwd("~/Desktop/")
+fires = rast("fires.jpg")
 plot(fires)
-fires= flip(fires)
+fires = flip(fires)
 plot(fires)
-` ` ` 
+```
 
-the image is the following:
+The image is the following: trascino l'immagine
 
+![fires](https://github.com/user-attachments/assets/e0f07ba3-8883-4b8b-b9e8-8e1a2049f296)
 
+## Data analysis
 
-##Data analysis
+Based on the data gathered from the site we can caluclate an index, using the first two bands:
 
-Based on the data gathered frome the site we can calculate an index, using the first two bands:
+``` r
+fireindex = fires[[1]] - fires[[2]]
+plot(fireindex)
+```
 
-` ` ` r
-plot("fireindex.png")
+In order to export the index, we can use the png() function like:
+
+``` r
+png("fireindex.png")
 plot(fireindex)
 dev.off()
-` ` ` 
+```
 
-the index looks like
+The index looks like: trascino l'immagine
 
+![fireindex](https://github.com/user-attachments/assets/0690737f-e49b-4b94-9178-29ad76804765)
 
+## Index visualisation by viridis
 
-## index visualisation by viridis
+In order to visualize the index with another viridis palette we made use of the following code:
 
-in order to visualize the index with another viridis oalette we made use of the following code:
-
-` ` ` r
-library(viridis)
+``` r
 plot(fireindex, col=inferno(100))
-` ` ` 
-the output will look like:
+```
 
+The output will look like:
+
+![inferno](https://github.com/user-attachments/assets/9bab43f4-5374-4e4d-9115-25a1c234fea6)
