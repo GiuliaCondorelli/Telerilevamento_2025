@@ -2,7 +2,7 @@
 // Definisci area di interesse: Campo Imperatore
 var CampoImp = ee.Geometry.Rectangle([13.2, 42.2, 13.8, 42.7]);
 
-// Finestra temporale più ampia: da luglio a settembre 2024
+// Finestra temporale più ampia: da luglio a settembre 2015
 var startDate = ee.Date('2015-07-01');
 var endDate = ee.Date('2015-09-01');
 
@@ -45,13 +45,13 @@ Export.image.toDrive({
 
 
 
-  // Immagine del 2024
+  // Immagine del 2025
   // Definisci area di interesse: Campo Imperatore
 var CampoImp = ee.Geometry.Rectangle([13.2, 42.2, 13.8, 42.7]);
 
-// Finestra temporale più ampia: da luglio a settembre 2024
-var startDate = ee.Date('2024-07-01');
-var endDate = ee.Date('2024-09-01');
+// Finestra temporale più ampia: da luglio a settembre 2025
+var startDate = ee.Date('2025-07-01');
+var endDate = ee.Date('2025-09-01');
 
 // Collezione Sentinel‑2 TOA (L1C)
 var s2col = ee.ImageCollection('COPERNICUS/S2')
@@ -60,34 +60,89 @@ var s2col = ee.ImageCollection('COPERNICUS/S2')
   .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 10))  // poco tollerante
   .sort('CLOUDY_PIXEL_PERCENTAGE');
 
-print('Numero immagini trovate 2024:', s2col.size());
+print('Numero immagini trovate 2025:', s2col.size());
 
 // Prendi la prima immagine disponibile
-var image2024 = ee.Image(s2col.first());
+var image2025 = ee.Image(s2col.first());
 
-print('Immagine selezionata 2024:', image2024);
+print('Immagine selezionata 2025:', image2025);
 
 // Controllo: se non trova, vuol dire che non ci sono immagini con questi criteri
-// (ciao a image2024 come null)
+// (ciao a image2025 come null)
 
 // Se c'è immagine, seleziona le bande B2, B3, B4, B8
 var bands = ['B2', 'B3', 'B4', 'B8'];
 
-var selected2024 = image2024.select(bands);
+var selected2025 = image2025.select(bands);
 
 // Visualizza RGB (natural) su mappa
 Map.centerObject(CampoImp, 10);
-Map.addLayer(selected2024, {bands: ['B4','B3','B2'], min: 0, max: 3000}, 'RGB 2024 CampoImp');
+Map.addLayer(selected2025, {bands: ['B4','B3','B2'], min: 0, max: 3000}, 'RGB 2025 CampoImp');
 
 // Esporta l’immagine su Google Drive se esiste
 Export.image.toDrive({
-  image: selected2024,
-  description: 'CampoImp2024',
+  image: selected2025,
+  description: 'CampoImp2025',
   folder: 'GEE_Export',
-  fileNamePrefix: 'CampoImp2024',
+  fileNamePrefix: 'CampoImp2025',
   region: geometry2,
   scale: 10,
   crs: 'EPSG:32633',
   maxPixels: 1e9
 });
 });
+
+
+
+
+#(nel caso servisse)
+// 📍 1. Definisci area di interesse (esempio: Gran Sasso)
+var geometry = ee.Geometry.Point([13.55, 42.45]);
+
+// 📆 2. Funzione per filtrare collezione Sentinel-2 TOA
+function getS2_TOA(year, month) {
+  var start = ee.Date.fromYMD(year, month, 1);
+  var end = start.advance(1, 'month');
+
+  return ee.ImageCollection('COPERNICUS/S2')  // TOA collection
+    .filterBounds(geometry)
+    .filterDate(start, end)
+    .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 5)) // immagini poco nuvolose
+    .sort('CLOUDY_PIXEL_PERCENTAGE')
+    .first(); // prende l'immagine meno nuvolosa
+}
+
+// 🛰️ 3. Prendi immagini Sentinel-2 TOA per luglio 2015 e luglio 2020
+var s2_2015 = getS2_TOA(2015, 7);
+var s2_2020 = getS2_TOA(2020, 7);
+
+// 🔎 4. Seleziona le bande
+var b4_2015 = s2_2015.select('B4');  // RED
+var b8_2015 = s2_2015.select('B8');  // NIR
+
+var b4_2020 = s2_2020.select('B4');
+var b8_2020 = s2_2020.select('B8');
+
+// 📤 5. Funzione per esportare le bande su Google Drive
+function exportBand(image, bandName, year) {
+  Export.image.toDrive({
+    image: image,
+    description: bandName + '_' + year,
+    folder: 'GEE_Export',
+    fileNamePrefix: bandName + '_' + year,
+    region: geometry.buffer(10000).bounds(), // ~10 km intorno al punto
+    scale: 10,
+    crs: 'EPSG:32633', // UTM zone 33N per Italia centrale
+    maxPixels: 1e9
+  });
+}
+
+// ▶️ 6. Avvia esportazioni
+exportBand(b4_2015, 'B4', '2015');
+exportBand(b8_2015, 'B8', '2015');
+exportBand(b4_2020, 'B4', '2020');
+exportBand(b8_2020, 'B8', '2020');
+
+
+
+
