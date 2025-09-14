@@ -14,3 +14,11 @@
 library(terra) # Pacchetto per l'analisi spaziale dei dati con vettori e dati raster
 library(imageRy) # Pacchetto per manipolare, visualizzare ed esportare immagini raster in R
 library(viridis) # Pacchetto per cambiare le palette di colori anche per chi è affetto da colorblindness
+library()
+
+# Imposto la working directory
+setwd("C://Users/giuli/OneDrive/telexam/")
+
+# ---
+# IMPORTAZIONE DELLE IMMAGINI
+# Importo in R le immagini scaricate con Google Earth Engine
