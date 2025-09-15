@@ -62,7 +62,7 @@ dvi_2025 <- im.dvi(campoimp25, 4, 1)
 ndwi_2015 <- im.ndwi(campoimp15, 3, 8)
 ndwi_2025 <- im.ndwi(campoimp25, 3, 8)
 
-## 🌿 Analisi NDVI
+##🌿 **Analisi NDVI**
 
 L’NDVI è uno degli indici più utilizzati per misurare la densità e salute della vegetazione. I valori si distribuiscono tra -1 e 1.
 
