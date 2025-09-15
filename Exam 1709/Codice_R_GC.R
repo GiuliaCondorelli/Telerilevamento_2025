@@ -2,10 +2,9 @@
 # Telerilevamento geo-ecologico in R
 # Giulia Condorelli
 
-# CODICE IN R PER L'ELABORAZIONE DELLE IMMAGINI
 
 # Le immagini vogliono mettere in evidenza i cambiamenti nella vegetazione nell'ultimo decennio a causa di pascoli poco regolamentati, aumentata siccità e elevato turismo
-# Grazie a Google Earth Engine sono state scaricate due immagini di Sentinel-2 (per il codice si veda lo script Esame.js)
+# Grazie a Google Earth Engine sono state scaricate due immagini di Sentinel-2 (per il codice si veda lo script Codice_R_GC.R)
 # La prima riguarda una mediana delle immagini dell'estate 2015, la seconda una mediana delle immagini dell'estate 2025
 
 # Il salvataggio delle immagini da R è stato fatto con il menù a tendina di R, in formato .png
@@ -159,5 +158,4 @@ im.multiframe(1, 2)
 plot(nir_diff, col = viridis(100), main = "NIR (2025 - 2015)")
 plot(ndvi_diff, col = viridis(100), main = "NDVI (2025 - 2015)")
 dev.off()     # Chiudo il pannello grafico dopo aver salvato l'immagine in .png
-
 
