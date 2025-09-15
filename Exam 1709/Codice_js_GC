@@ -42,7 +42,7 @@ Export.image.toDrive({
   scale: 10,
   crs: 'EPSG:32633',
   maxPixels: 1e9
-
+});
 
 
   // Immagine del 2025
@@ -90,7 +90,7 @@ Export.image.toDrive({
   crs: 'EPSG:32633',
   maxPixels: 1e9
 });
-});
+
 
 
 
