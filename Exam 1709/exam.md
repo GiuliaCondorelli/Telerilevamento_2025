@@ -35,27 +35,27 @@ Le immagini sono state scaricate attraverso il sito web di [Google Earth Engine]
 
 > [!NOTE]
 >
-> Il codice completo in java script utilizzato per ottenere le immagini si trova nel file Codice_js_GC.js
+> Il codice completo in JavaScript utilizzato per ottenere le immagini si trova nel file Codice_js_GC.js
 
 ## Impostazione della working directory
 setwd("C://Users/giuli/OneDrive/telexam/")
 
 ## Caricamento pacchetti
-- library(terra)
-- library(imageRy)
-- library(viridis)
-- library(ggplot2)
-- library(patchwork)
+library(terra)  
+library(imageRy)  
+library(viridis)  
+library(ggplot2)  
+library(patchwork)  
 
 ## Importazione raster Sentinel-2
-- campoimp15 <- rast("CampoImp2015.tif")
-- campoimp25 <- rast("CampoImp2025.tif")
+campoimp15 <- rast("CampoImp2015.tif")  
+campoimp25 <- rast("CampoImp2025.tif")  
 
 ## Calcolo indici spettrali
-- ndvi_2015 <- im.ndvi(campoimp15, 4, 1)
-- ndvi_2025 <- im.ndvi(campoimp25, 4, 1)
-- dvi_2015 <- im.dvi(campoimp15, 4, 1)
-- dvi_2025 <- im.dvi(campoimp25, 4, 1)
+ndvi_2015 <- im.ndvi(campoimp15, 4, 1)  
+ndvi_2025 <- im.ndvi(campoimp25, 4, 1)  
+dvi_2015 <- im.dvi(campoimp15, 4, 1)  
+dvi_2025 <- im.dvi(campoimp25, 4, 1)  
 
 # 🌿 Analisi NDVI
 
