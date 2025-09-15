@@ -4,18 +4,7 @@
 # Analisi dell’Impatto dei Pascoli sulla Vegetazione del Campo Imperatore (2015-2025) 🏔️
 
 ---
-title: "Analisi dell’Impatto dei Pascoli sulla Vegetazione del Campo Imperatore (2015-2025)"
-subtitle: "Progetto LIFE11/NAT/IT/234 - PRATERIE"
-author: "Giulia Condorelli"
-date: "`r Sys.Date()`"
-output:
-  html_document:
-    toc: true
-    toc_depth: 3
-    number_sections: true
-    theme: cerulean
-    highlight: tango
----
+
 
 # 📌 Introduzione
 
@@ -36,39 +25,46 @@ L’obiettivo dell’elaborazione telerilevata in R è **monitorare i cambiament
 
 - **NDVI** (Normalized Difference Vegetation Index)
 - **DVI** (Difference Vegetation Index)
-- **NDWI** (Normalized Difference Water Index)
 
 ---
 
-# 🧪 Dati e Metodologia
+# 🧪 Data gathering e Metodologia
 
-```r
-# Caricamento pacchetti
-library(terra)
-library(imageRy)
-library(viridis)
-library(ggplot2)
-library(patchwork)
+## Raccolta delle immagini
+Le immagini sono state scaricate attraverso il sito web di [Google Earth Engine](https://earthengine.google.com/), scegliendo l'area descritta precedentemente.
 
-# Importazione raster Sentinel-2
-campoimp15 <- rast("CampoImp2015.tif")
-campoimp25 <- rast("CampoImp2025.tif")
+> [!NOTE]
+>
+> Il codice completo in java script utilizzato per ottenere le immagini si trova nel file Codice_js_GC.js
+
+## Impostazione della working directory
+setwd("C://Users/giuli/OneDrive/telexam/")
+
+## Caricamento pacchetti
+- library(terra)
+- library(imageRy)
+- library(viridis)
+- library(ggplot2)
+- library(patchwork)
+
+## Importazione raster Sentinel-2
+- campoimp15 <- rast("CampoImp2015.tif")
+- campoimp25 <- rast("CampoImp2025.tif")
 
 ## Calcolo indici spettrali
-ndvi_2015 <- im.ndvi(campoimp15, 4, 1)
-ndvi_2025 <- im.ndvi(campoimp25, 4, 1)
-dvi_2015 <- im.dvi(campoimp15, 4, 1)
-dvi_2025 <- im.dvi(campoimp25, 4, 1)
-ndwi_2015 <- im.ndwi(campoimp15, 3, 8)
-ndwi_2025 <- im.ndwi(campoimp25, 3, 8)
+- ndvi_2015 <- im.ndvi(campoimp15, 4, 1)
+- ndvi_2025 <- im.ndvi(campoimp25, 4, 1)
+- dvi_2015 <- im.dvi(campoimp15, 4, 1)
+- dvi_2025 <- im.dvi(campoimp25, 4, 1)
 
-##🌿 **Analisi NDVI**
+# 🌿 Analisi NDVI
 
 L’NDVI è uno degli indici più utilizzati per misurare la densità e salute della vegetazione. I valori si distribuiscono tra -1 e 1.
 
-# Istogramma distribuzione NDVI
-hist(ndvi_2015, main = "NDVI 2015", col = "darkgreen")
-hist(ndvi_2025, main = "NDVI 2025", col = "darkblue")
+Per scegliere il range di valori adatto alla classificazione osservo gli istogrammi della distribuzione  dell'NDVI:
+- hist(ndvi_2015, main = "NDVI 2015", col = "darkgreen")   
+- hist(ndvi_2025, main = "NDVI 2025", col = "darkblue")     
+
 
 Classificazione per classi di vegetazione:
 class_matrix <- matrix(c(-Inf, 0.2, 1, 0.2, 0.4, 2, 0.4, Inf, 3), ncol = 3, byrow = TRUE)
@@ -104,12 +100,7 @@ p2 <- ggplot(tab, aes(x = classi, y = a2025, fill = classi)) +
 
 p1 + p2
 
-💧 Analisi NDWI
 
-L’NDWI (Normalized Difference Water Index) evidenzia la presenza e lo stress idrico della vegetazione.
-
-ndwi_diff <- ndwi_2025 - ndwi_2015
-plot(ndwi_diff, col = viridis(100), main = "Differenza NDWI (2025 - 2015)")
 
 ## 📉 Differenze multitemporali
 ndvi_diff <- ndvi_2025 - ndvi_2015
@@ -140,30 +131,9 @@ Documentazione Sentinel-2 ESA
 
 Pacchetti R: terra, imageRy, ggplot2, viridis, patchwork
 
-## Raccolta delle immagini
-Le immagini sono state scaricate attraverso il sito web di [Google Earth Engine](https://earthengine.google.com/), scegliendo l'area descritta precedentemente.
 
-> [!NOTE]
->
-> Il codice completo in java script utilizzato per ottenere le immagini si trova nel file Codice_js_GM.js
 
-## Pacchetti utilizzati
-I pacchetti di R che sono stati utilizzati per questo codice sono i seguenti:
-```r
-library(terra) # Pacchetto per l'analisi spaziale dei dati con vettori e dati raster
-library(imageRy) # Pacchetto per manipolare, visualizzare ed esportare immagini raster in R
-library(viridis) # Pacchetto per cambiare le palette di colori anche per chi è affetto da colorblindness
-library(ggplot2) # Pacchetto per creare grafici ggplot
-library(patchwork) # Pacchetto utilizzato per comporre più grafici ggplot insieme
-```
 
-## Impostazione della working directory e importazione delle immagini
-```r
-setwd("C:/Users/march/Desktop/BOLOGNA/II semestre/Telerilevamento geoecologico in R/ESAME")
-
-sentinel2024 <- rast("Canada2024.tif")
-sentinel2025 <- rast("Canada2025.tif")
-```
 
 > [!NOTE]
 >
