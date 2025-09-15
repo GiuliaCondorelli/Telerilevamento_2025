@@ -38,6 +38,10 @@ plotRGB(campoimp15, r = 1, g = 2, b = 3, stretch = "lin", main = "Campo Imperato
 plotRGB(campoimp25, r = 1, g = 2, b = 3, stretch = "lin", main = "Campo Imperatore, 2025")
 dev.off()           # Chiudo il pannello grafico dopo aver salvato l'immagine in .png
 
+im.multiframe(1,2)
+campoimp15_cl = im.classify(campoimp15, num_clusters=2)
+campoimp25_cl = im.classify(campoimp25, num_clusters=2)
+ev.off()           # Chiudo il pannello grafico dopo aver salvato l'immagine in .png    (forse non lo inserisco!!!)
 # Visualizzo le quattro bande separate (RGB e NIR) per entrambe le immagini
 
 par(mfrow = c(2, 2))      # Per impostare una griglia 2x2 per le quattro immagini
@@ -55,11 +59,20 @@ plot(campoimp25[[3]], main = "B2 - Blue", col = magma(100))
 plot(campoimp25[[4]], main = "B8 - NIR", col = magma(100))
 dev.off()          # Chiudo il pannello grafico dopo aver salvato l'immagine in .png
 
+# Calcolo DVI
+ dvi_2015 <- campoimp15[[4]] - campoimp15[[1]]
+> dvi_2025 <- campoimp25[[4]] - campoimp25[[1]]
+> 
+> # Visualizzazione della DVI
+> im.multiframe(1, 2)
+> plot(dvi_2015, col = viridis(100), main = "DVI 2015")
+> plot(dvi_2025, col = viridis(100), main = "DVI 2025")
+> dvi_diff <- dvi_2025 - dvi_2015
+> 
+> # Visualizzazione differenza DVI
+> im.multiframe(1, 1)
+> plot(dvi_diff, col = magma(100), main = "Differenza DVI (2025 - 2015)")
 
-
-
-
-BOZZA
 # ---
 # 🌱 CALCOLO NDVI
 ndvi_2015 <- (campoimp15[[4]] - campoimp15[[1]]) / (campoimp15[[4]] + campoimp15[[1]])
@@ -69,25 +82,28 @@ ndvi_2025 <- (campoimp25[[4]] - campoimp25[[1]]) / (campoimp25[[4]] + campoimp25
 im.multiframe(1, 2)
 plot(ndvi_2015, col = viridis(100), main = "NDVI 2015")
 plot(ndvi_2025, col = viridis(100), main = "NDVI 2025")
-dev.off()
+dev.off()     # Chiudo il pannello grafico dopo aver salvato l'immagine in .png
 
 # ---
 # 🔎 CLASSIFICAZIONE BINARIA (Vegetazione / Non vegetazione)
-# Soglia NDVI > 0.4 → vegetazione
+> hist(ndvi_2015, main = "Distribuzione NDVI 2015", col = "darkgreen")
+> hist(ndvi_2025, main = "Distribuzione NDVI 2025", col = "darkblue")
+ ndvi_class_matrix <- matrix(c(
++   -Inf, 0.25, 1,
++    0.25, 0.45, 2,
++    0.45, Inf, 3
++ ), ncol = 3, byrow = TRUE)
+> 
+> # Applico la classificazione
+> ndvi_2015_cl <- classify(ndvi_2015, ndvi_class_matrix)
+> ndvi_2025_cl <- classify(ndvi_2025, ndvi_class_matrix)
+> 
+> # Visualizzo le classi con colori adatti
+> im.multiframe(1, 2)
+> plot(ndvi_2015_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class. 2015")
+> plot(ndvi_2025_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class. 2025")
+> dev.off()           # Chiudo il pannello grafico dopo aver salvato l'immagine in .png
 
-ndvi_classes <- matrix(c(
-  -1, 0.4, 0,   # non vegetazione
-   0.4, 1, 1    # vegetazione
-), ncol = 3, byrow = TRUE)
-
-class_2015 <- classify(ndvi_2015, ndvi_classes)
-class_2025 <- classify(ndvi_2025, ndvi_classes)
-
-# Visualizzazione classificazioni
-im.multiframe(1, 2)
-plot(class_2015, col = c("yellow", "darkgreen"), main = "Classi 2015")
-plot(class_2025, col = c("yellow", "darkgreen"), main = "Classi 2025")
-dev.off()
 
 # ---
 # 📊 PERCENTUALI E TABELLA CON freq(), ncell(), ggplot
@@ -115,6 +131,10 @@ tab <- data.frame(
   a2025 = freq_2025$percent
 )
 print(tab)
+           classi a2015 a2025
+1        Suolo nudo  0.17  9.05
+2 Vegetazione media 16.42 90.01
+3  Vegetazione sana 83.41  0.94
 
 # Grafici ggplot
 p1 <- ggplot(tab, aes(x = classi, y = a2015, fill = classi)) +
