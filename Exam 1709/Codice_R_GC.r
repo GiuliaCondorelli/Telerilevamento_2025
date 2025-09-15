@@ -39,10 +39,21 @@ plotRGB(campoimp25, r = 1, g = 2, b = 3, stretch = "lin", main = "Campo Imperato
 dev.off()           # Chiudo il pannello grafico dopo aver salvato l'immagine in .png
 
 # Visualizzo le quattro bande separate (RGB e NIR) per entrambe le immagini
-plot(campoimp15, main=c("B4-Red", "B3-Green", "B2-Blue", "B8-NIR"), col=magma(100))
-plot(campoimp25, main=c("B4-Red", "B3-Green", "B2-Blue", "B8-NIR"), col=magma(100))
+
+par(mfrow = c(2, 2))      # Per impostare una griglia 2x2 per le quattro immagini
+# Plotto ogni banda separatamente, per evitare sovrapposizioni
+plot(campoimp15[[1]], main = "B4 - Red", col = magma(100))
+plot(campoimp15[[2]], main = "B3 - Green", col = magma(100))
+plot(campoimp15[[3]], main = "B2 - Blue", col = magma(100))
+plot(campoimp15[[4]], main = "B8 - NIR", col = magma(100))
 dev.off()           # Chiudo il pannello grafico dopo aver salvato l'immagine in .png
 
+par(mfrow = c(2, 2))
+plot(campoimp25[[1]], main = "B4 - Red", col = magma(100))
+plot(campoimp25[[2]], main = "B3 - Green", col = magma(100))
+plot(campoimp25[[3]], main = "B2 - Blue", col = magma(100))
+plot(campoimp25[[4]], main = "B8 - NIR", col = magma(100))
+dev.off()          # Chiudo il pannello grafico dopo aver salvato l'immagine in .png
 
 
 
