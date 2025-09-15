@@ -10,14 +10,15 @@
 
 # Il salvataggio delle immagini da R è stato fatto con il menù a tendina di R, in formato .png
 
+# Imposto la working directory
+setwd("C://Users/giuli/OneDrive/telexam/")
+
 # Pacchetti richiesti e utilizzati
 library(terra)       # Pacchetto per l'analisi spaziale dei dati con vettori e dati raster
 library(imageRy)     # Pacchetto per manipolare, visualizzare ed esportare immagini raster in R
 library(viridis)     # Pacchetto per cambiare le palette di colori anche per chi è affetto da colorblindness
-library()
-
-# Imposto la working directory
-setwd("C://Users/giuli/OneDrive/telexam/")
+library(ggplot2)     # Pacchetto per creare grafici ggplot
+library(patchwork)   # Per la visualizzazione di più grafici assieme
 
 # ---
 # IMPORTAZIONE DELLE IMMAGINI
@@ -41,9 +42,9 @@ dev.off()           # Chiudo il pannello grafico dopo aver salvato l'immagine in
 im.multiframe(1,2)
 campoimp15_cl = im.classify(campoimp15, num_clusters=2)
 campoimp25_cl = im.classify(campoimp25, num_clusters=2)
-ev.off()           # Chiudo il pannello grafico dopo aver salvato l'immagine in .png    (forse non lo inserisco!!!)
-# Visualizzo le quattro bande separate (RGB e NIR) per entrambe le immagini
+dev.off()           # Chiudo il pannello grafico dopo aver salvato l'immagine in .png    (forse non lo inserisco!!!)
 
+# Visualizzo le quattro bande separate (RGB e NIR) per entrambe le immagini
 par(mfrow = c(2, 2))      # Per impostare una griglia 2x2 per le quattro immagini
 # Plotto ogni banda separatamente, per evitare sovrapposizioni
 plot(campoimp15[[1]], main = "B4 - Red", col = magma(100))
@@ -59,24 +60,29 @@ plot(campoimp25[[3]], main = "B2 - Blue", col = magma(100))
 plot(campoimp25[[4]], main = "B8 - NIR", col = magma(100))
 dev.off()          # Chiudo il pannello grafico dopo aver salvato l'immagine in .png
 
-# Calcolo DVI
- dvi_2015 <- campoimp15[[4]] - campoimp15[[1]]
-> dvi_2025 <- campoimp25[[4]] - campoimp25[[1]]
-> 
-> # Visualizzazione della DVI
-> im.multiframe(1, 2)
-> plot(dvi_2015, col = viridis(100), main = "DVI 2015")
-> plot(dvi_2025, col = viridis(100), main = "DVI 2025")
-> dvi_diff <- dvi_2025 - dvi_2015
-> 
-> # Visualizzazione differenza DVI
-> im.multiframe(1, 1)
-> plot(dvi_diff, col = magma(100), main = "Differenza DVI (2025 - 2015)")
+# INDICI SPETTRALI
+# DIFFERENT VEGETATION INDEX - DVI
+# Questo indice che ci dà informazione sullo stato di salute delle piante attraverso la riflettanza della vegetazione nelle bande del rosso e NIR. In caso di stress la riflettanza nel NIR sarà più bassa.
+# Calcolo: DVI= NIR - red
+dvi_2015 <- im.dvi(campoimp15, 4, 1)  # Calcolo semplificato grazie alla funzione im.dvi() del pacchetto imageRy.
+dvi_2025 <- im.dvi(campoimp25, 4, 1)
+ 
+# Visualizzazione della DVI
+im.multiframe(1, 2)
+plot(dvi_2015, col = viridis(100), main = "DVI 2015")
+plot(dvi_2025, col = viridis(100), main = "DVI 2025")
+dvi_diff <- dvi_2025 - dvi_2015
+ 
+# Visualizzazione differenza DVI
+im.multiframe(1, 1)
+plot(dvi_diff, col = magma(100), main = "Differenza DVI (2025 - 2015)")
 
 # ---
-# 🌱 CALCOLO NDVI
-ndvi_2015 <- (campoimp15[[4]] - campoimp15[[1]]) / (campoimp15[[4]] + campoimp15[[1]])
-ndvi_2025 <- (campoimp25[[4]] - campoimp25[[1]]) / (campoimp25[[4]] + campoimp25[[1]])
+# 🌱 CALCOLO NDVI (NORMALIZED DIFFERENCE VEGETATION INDEX)
+# Un secondo indice per l'analisi della vegetazione, dato che i valori vengono normalizzati  tra -1 e +1 possiamo attuare analisi che sono state acquisite in tempi diversi.
+# Calcolo: NDVI= (NIR - red) / (NIR + red)
+ndvi_2015 <- im.ndvi(campoimp15, 4, 1)   # Calcolo semplificato grazie alla funzione im.ndvi() del pacchetto imageRy.
+ndvi_2025 <- im.ndvi(campoimp25, 4, 1)
 
 # Visualizzazione NDVI
 im.multiframe(1, 2)
@@ -86,71 +92,58 @@ dev.off()     # Chiudo il pannello grafico dopo aver salvato l'immagine in .png
 
 # ---
 # 🔎 CLASSIFICAZIONE BINARIA (Vegetazione / Non vegetazione)
-> hist(ndvi_2015, main = "Distribuzione NDVI 2015", col = "darkgreen")
-> hist(ndvi_2025, main = "Distribuzione NDVI 2025", col = "darkblue")
- ndvi_class_matrix <- matrix(c(
-+   -Inf, 0.25, 1,
-+    0.25, 0.45, 2,
-+    0.45, Inf, 3
-+ ), ncol = 3, byrow = TRUE)
-> 
-> # Applico la classificazione
-> ndvi_2015_cl <- classify(ndvi_2015, ndvi_class_matrix)
-> ndvi_2025_cl <- classify(ndvi_2025, ndvi_class_matrix)
-> 
-> # Visualizzo le classi con colori adatti
-> im.multiframe(1, 2)
-> plot(ndvi_2015_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class. 2015")
-> plot(ndvi_2025_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class. 2025")
-> dev.off()           # Chiudo il pannello grafico dopo aver salvato l'immagine in .png
+# Visualizzo la distribuzione delle due NDVI con degli istogrammi per poter avere una classificazione più adeguata
+hist(ndvi_2015, main = "Distribuzione NDVI 2015", col = "darkgreen")
+hist(ndvi_2025, main = "Distribuzione NDVI 2025", col = "darkblue")
 
+class_matrix <- matrix(c(-Inf, 0.2, 1, 0.2, 0.4, 2, 0.4, Inf, 3), ncol = 3, byrow = TRUE)
 
-# ---
-# 📊 PERCENTUALI E TABELLA CON freq(), ncell(), ggplot
+✅ 3. Classificazione NDVI
+ndvi_2015_cl <- classify(ndvi_2015, class_matrix)
+ndvi_2025_cl <- classify(ndvi_2025, class_matrix)
+
+# Verifica visuale
+im.multiframe(1, 2)
+plot(ndvi_2015_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class. 2015")
+plot(ndvi_2025_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class. 2025")
+dev.off() # Chiudo il pannello grafico dopo aver salvato l'immagine in .png
+
+# ---    
+# 📊 Calcolo percentuali
 
 # Calcolo frequenze
-freq_2015 <- freq(class_2015)
-freq_2025 <- freq(class_2025)
+freq_2015 <- freq(ndvi_2015_cl)
+freq_2025 <- freq(ndvi_2025_cl)
+ 
+# Percentuale
+perc_2015 <- freq_2015$count * 100 / ncell(ndvi_2015_cl)
+perc_2025 <- freq_2025$count * 100 / ncell(ndvi_2025_cl) 
 
-# Percentuali
-total_2015 <- ncell(class_2015)
-total_2025 <- ncell(class_2025)
-
-freq_2015$percent <- round((freq_2015$count / total_2015) * 100, 2)
-freq_2025$percent <- round((freq_2025$count / total_2025) * 100, 2)
-
-# Etichette classi
-labels <- c("Non vegetazione", "Vegetazione")
-freq_2015$classi <- labels[freq_2015$value + 1]
-freq_2025$classi <- labels[freq_2025$value + 1]
-
-# Tabella finale
-tab <- data.frame(
-  classi = labels,
-  a2015 = freq_2015$percent,
-  a2025 = freq_2025$percent
-)
+# Tabella con merge per gestire classi mancanti
+tab <- data.frame(classi = c("Suolo nudo", "Vegetazione media", "Vegetazione sana"), a2015 = round(perc_2015, 2), a2025 = round(perc_2025, 2))
 print(tab)
-           classi a2015 a2025
+             classi a2015 a2025
 1        Suolo nudo  0.17  9.05
 2 Vegetazione media 16.42 90.01
 3  Vegetazione sana 83.41  0.94
 
 # Grafici ggplot
-p1 <- ggplot(tab, aes(x = classi, y = a2015, fill = classi)) +
-  geom_bar(stat = "identity") +
-  scale_fill_viridis_d() +
-  ylim(0, 100) +
-  labs(title = "Classi NDVI 2015", y = "%", x = NULL) +
-  theme_minimal()
+p1 <- ggplot(tab, aes(x = classi, y = a2015, fill = classi)) +           # ggplot(tab, aes(...)): inizializza il grafico dal data.frame tab
+  geom_bar(stat = "identity") +                                          # geom_bar(): crea le barre del grafico
+  scale_fill_viridis_d() +                                               # scale_fill_viridis_d(): applica una palette a contrasto visivo compatibile con persone affette da daltonismo
+  ylim(0, 100) +                                                         # ylim(): impone che l'asse delle y vada da 0 a 100 (percentuali)
+  labs(title = "Classi NDVI 2015", y = "%", x = NULL) +                  # labs(): modifica titoli e etichette degli assi
+  theme_minimal()                                                        # theme_minimal(): applica un tema minimale per rendere il grafico più pulito e leggibile
 
-p2 <- ggplot(tab, aes(x = classi, y = a2025, fill = classi)) +
-  geom_bar(stat = "identity") +
-  scale_fill_viridis_d() +
-  ylim(0, 100) +
-  labs(title = "Classi NDVI 2025", y = "%", x = NULL) +
+p2 <- ggplot(tab, aes(x = classi, y = a2025, fill = classi)) +     
+  geom_bar(stat = "identity") + 
+  scale_fill_viridis_d() + 
+  ylim(0, 100) + 
+  labs(title = "Classi NDVI 2025", y = "%", x = NULL) + 
   theme_minimal()
-p1+p2  # Per visualizzare i grafici affiancati
+p1+p2        # Grazie al pacchetto patchwork posso affiancare i due grafici nella stessa immagine
+dev.off()    # Chiudo il pannello grafico dopo aver salvato l'immagine in .png
+
 
 # ---
 # 🔁 ANALISI MULTITEMPORALE
@@ -163,19 +156,8 @@ ndvi_diff <- ndvi_2025 - ndvi_2015
 
 # Plot differenze
 im.multiframe(1, 2)
-plot(nir_diff, col = viridis(100), main = "Δ NIR (2025 - 2015)")
-plot(ndvi_diff, col = viridis(100), main = "Δ NDVI (2025 - 2015)")
-dev.off()
+plot(nir_diff, col = viridis(100), main = "NIR (2025 - 2015)")
+plot(ndvi_diff, col = viridis(100), main = "NDVI (2025 - 2015)")
+dev.off()     # Chiudo il pannello grafico dopo aver salvato l'immagine in .png
 
-# Statistiche differenza NDVI
-summary(values(ndvi_diff), na.rm = TRUE)
-
-# ---
-# 💾 ESPORTAZIONE DATI (facoltativo)
-write.csv(tab, "percentuali_classi_ndvi.csv", row.names = FALSE)
-writeRaster(ndvi_diff, "NDVI_diff_2025_2015.tif", overwrite = TRUE)
-
-# ---
-# ✅ FINE SCRIPT
-print("Analisi completata con successo.")
 
