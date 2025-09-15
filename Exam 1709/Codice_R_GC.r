@@ -150,10 +150,7 @@ p2 <- ggplot(tab, aes(x = classi, y = a2025, fill = classi)) +
   ylim(0, 100) +
   labs(title = "Classi NDVI 2025", y = "%", x = NULL) +
   theme_minimal()
-
-# Visualizza i due grafici affiancati
-library(gridExtra)
-grid.arrange(p1, p2, ncol = 2)
+p1+p2  # Per visualizzare i grafici affiancati
 
 # ---
 # 🔁 ANALISI MULTITEMPORALE
