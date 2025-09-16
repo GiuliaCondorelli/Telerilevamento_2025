@@ -1,7 +1,7 @@
 > #### Giulia Condorelli
 >> ##### matricola n. 1185693
 
-# Analisi dell’Impatto dei Pascoli sulla Vegetazione del Campo Imperatore (2015-2025) 🏔️
+# Analisi dell’Impatto dei Pascoli sulla Vegetazione del Campo Imperatore (2015-2025) 🐄
 
 ---
 
