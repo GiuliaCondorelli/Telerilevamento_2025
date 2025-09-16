@@ -54,7 +54,7 @@ plot(campoimp25[[4]], main = "B8 - NIR", col = magma(100))
 dev.off()          # Chiudo il pannello grafico dopo aver salvato l'immagine in .png
 
 # Le immagini col NIR (Near-InfraRed) sono molto importanti perchè sono quelle che ci permettono di osservare lo stato di salute della vegetazione. 
-Una minor riflessione del NIR mi indica una vegetazione sottoposta a stress. 
+# Una minor riflessione del NIR mi indica una vegetazione sottoposta a stress. 
 
 # Dunque sostituendo la banda del blu al NIR posso evidenziare tutto ciò che è vegetazione in blu mentre tutto ciò che non lo è in giallo.
 im.multiframe(1,2)
