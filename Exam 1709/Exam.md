@@ -11,14 +11,13 @@ Il progetto **LIFE PRATERIE** (LIFE11/NAT/IT/234) propone la conservazione a lun
 
 Campo Imperatore rappresenta una delle aree più sensibili, interessata da:
 
-- pascolo non regolamentato,
-- sovraccarico da parte del bestiame in specifiche zone,
-- ridotta disponibilità di infrastrutture (es. abbeveratoi),
-- impatto crescente del turismo su strada e escursionistico.  
-  
-  <p align="center">
-  <img width="480" height="480" src="https://github.com/user-attachments/assets/136b5baa-19d8-411c-8e60-2fcae486efc9" />
-</p>
+- pascolo non regolamentato   
+- sovraccarico da parte del bestiame in specifiche zone  
+- ridotta disponibilità di infrastrutture (es. abbeveratoi)  
+- impatto crescente del turismo su strada e escursionistico.
+
+
+  ![mappa Campo Imperatore2](https://github.com/user-attachments/assets/439212a0-01d1-4bfc-87bc-55b12383ea80)
 
 ---
 
@@ -173,6 +172,22 @@ plot(ndvi_2025, col = viridis(100), main = "NDVI 2025")
 <p align="center">
 <img width="614" height="613" alt="NDVI2015_2025" src="https://github.com/user-attachments/assets/203cdfd5-1b97-42b5-82c4-cda827e9c5c8" />
 
+## Ridgeline plot
+>[!TIP]
+> Il ridgeplot consente di confrontare visivamente la distribuzione dell’indice NDVI tra il 2015 e il 2025, evidenziando eventuali variazioni nella densità e nello stato della vegetazione nel tempo.
+````md
+# Per cominciare si crea un vettore per visualizzare le due immagini contemporaneamente
+campoimp_ridg=c(ndvi_2015, ndvi_2025)  
+names(campoimp_ridg) =c("NDVI 2015", "NDVI 2025") # Per assegnare i nomi alle due immagini del vettore
+# Applicazione della funzione im.ridgeline del pacchetto imageRy
+im.ridgeline(campoimp_ridg, scale=2, palette="viridis")
+````
+<p align="center">
+<img width="414" height="413" alt="graficoim ridgeline" src="https://github.com/user-attachments/assets/1bf4b47a-4f2c-4921-8aa5-4de4636e1289" />
+
+> **Commento**
+> 
+> Si nota come la curva relativa al 2025 sia più spostata verso sinistra e più stretta rispetto alla curva del 2015 e ciò potrebbe significare che ci siano più aree con vegetazione in sofferenza (valori NDVI più bassi) e con una copertura piuttosto omogenea (tutto degradato o tutto pascolo). 
 
 
 ## Classificazione per classi di vegetazione
@@ -205,10 +220,20 @@ class_matrix
 [2,]  0.2  0.4    2       # Se 0.2 ≤ NDVI < 0.4 allora si associa una classe di tipo 2 (Vegetazione media)
 [3,]  0.4  Inf    3       # Se NDVI ≥ 0.4 allora si associa una classe di tipo 3 (Vegetazione sana)  
 
-ndvi_2015_cl <- classify(ndvi_2015, class_matrix)
-ndvi_2025_cl <- classify(ndvi_2025, class_matrix)
+ndvi_2015_cl <- classify(ndvi_2015, class_matrix)  
+ndvi_2025_cl <- classify(ndvi_2025, class_matrix)  
+# Verifica visuale   
+im.multiframe(1, 2   
+plot(ndvi_2015_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class. 2015")  
+plot(ndvi_2025_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class. 2025")  
  ````
+<p align="center">
+<img width="614" height="613" alt="class3NDVI2015_2025" src="https://github.com/user-attachments/assets/f284cddf-1be0-49ec-8502-727bd0e5912c" />
 
+>**Commento**
+>
+> Sono visivamente evidenti i cambiamenti nella vegetazione. C'è stata una quasi completa sostituzione di tutta quella vegetazione considerata sana. Nell'immagine rappresentante il 2025 domina una vegetazione media, ovvero una vegetazione sottoposta a stress o rada.
+  
 ## Calcolo percentuali
  ````md
 # Frequenze
@@ -270,22 +295,27 @@ p1 + p2      # Grazie al pacchetto patchwork si possono unire i grafici in quest
 
 ---
 
-## 📉 Differenze multitemporali
+## 📉 Analisi multitemporale
+L'analisi multitemporale ha permesso di confrontare i dati telerilevati del 2015 e del 2025, focalizzandosi in particolare sulla banda del NIR e sull'indice NDVI, al fine di evidenziare variazioni significative nello stato della vegetazione nell’arco del decennio.
 ````md
+nir_diff <- campoimp25[[4]] - campoimp15[[4]]
 ndvi_diff <- ndvi_2025 - ndvi_2015  
-plot(ndvi_diff, col = viridis(100), main = "Differenza NDVI (2025 - 2015)")
+im.multiframe(1, 2)
+plot(nir_diff, col = viridis(100), main = "NIR (2025 - 2015)")
+plot(ndvi_diff, col = viridis(100), main = "NDVI (2025 - 2015)")
 ````
-Risultano evidenti zone di degrado vegetativo nei pressi delle aree sovraccariche di pascolo e lungo i principali assi turistici.
+<p align="center">
+<img width="599" height="613" alt="NIR_NDVIdiff" src="https://github.com/user-attachments/assets/6f9ff787-7b4d-4341-89e3-5734136d1b88" />
+
+> **Commento**
+>
+> Le mappe di differenza NIR e NDVI tra il 2015 e il 2025 mostrano una chiara riduzione della riflettanza nel vicino infrarosso e dei valori di NDVI in diverse aree di Campo Imperatore, suggerendo un peggioramento della salute vegetazionale, verosimilmente legato a fattori di pressione ambientale come il pascolo incontrollato e i cambiamenti climatici.
 
 ## 📌 Commenti e Conclusioni
 
-L’analisi ha evidenziato cambiamenti significativi tra il 2015 e il 2025:
-
-Forte riduzione della vegetazione sana (NDVI > 0.4) e incremento di aree a suolo nudo o vegetazione degradata.
-
-Presenza di stress idrico in molte aree (valori NDWI in calo).
-
-I dati supportano la necessità di regolamentare i pascoli, migliorare le infrastrutture e gestire il turismo con maggiore attenzione.
+Dai risultati ottenuti emerge una chiara contrazione della vegetazione sana: la copertura verde intensa (NDVI elevato / DVI alto) nel 2015 era molto più estesa, mentre nel 2025 appare fortemente ridotta. Parallelamente, si osserva un incremento delle aree con vegetazione moderata o degradata, e persino suolo nudo. Questi risultati suggeriscono una perdita di vigore vegetativo, probabilmente dovuta a pressione antropica (sovrappascolo, flusso turistico) e stress ambientale, come siccità o uso non sostenibile del territorio.
+### Obiettivo progetto LIFE11/NAT/IT/234 – PRATERIE
+Alla luce delle analisi effettuate, risulta evidente come sia fondamentale intervenire sulla gestione del pascolo e delle infrastrutture turistiche. Solo attraverso strategie condivise con gli attori locali sarà possibile contribuire attivamente alla conservazione degli habitat montani, valorizzandoli come patrimonio collettivo da tutelare oggi e trasmettere integro alle generazioni future.
 
 ## 🎯 Il contributo del telerilevamento
 
