@@ -38,11 +38,6 @@ plotRGB(campoimp15, r = 1, g = 2, b = 3, stretch = "lin", main = "Campo Imperato
 plotRGB(campoimp25, r = 1, g = 2, b = 3, stretch = "lin", main = "Campo Imperatore, 2025")
 dev.off()           # Chiudo il pannello grafico dopo aver salvato l'immagine in .png
 
-im.multiframe(1,2)
-campoimp15_cl = im.classify(campoimp15, num_clusters=2)
-campoimp25_cl = im.classify(campoimp25, num_clusters=2)
-dev.off()           # Chiudo il pannello grafico dopo aver salvato l'immagine in .png    (forse non lo inserisco!!!)
-
 # Visualizzo le quattro bande separate (RGB e NIR) per entrambe le immagini
 par(mfrow = c(2, 2))      # Per impostare una griglia 2x2 per le quattro immagini
 # Plotto ogni banda separatamente, per evitare sovrapposizioni
@@ -76,8 +71,7 @@ dvi_diff <- dvi_2025 - dvi_2015
 im.multiframe(1, 1)
 plot(dvi_diff, col = magma(100), main = "Differenza DVI (2025 - 2015)")
 
-# ---
-# 🌱 CALCOLO NDVI (NORMALIZED DIFFERENCE VEGETATION INDEX)
+#  CALCOLO NDVI (NORMALIZED DIFFERENCE VEGETATION INDEX)
 # Un secondo indice per l'analisi della vegetazione, dato che i valori vengono normalizzati  tra -1 e +1 possiamo attuare analisi che sono state acquisite in tempi diversi.
 # Calcolo: NDVI= (NIR - red) / (NIR + red)
 ndvi_2015 <- im.ndvi(campoimp15, 4, 1)   # Calcolo semplificato grazie alla funzione im.ndvi() del pacchetto imageRy.
@@ -89,15 +83,14 @@ plot(ndvi_2015, col = viridis(100), main = "NDVI 2015")
 plot(ndvi_2025, col = viridis(100), main = "NDVI 2025")
 dev.off()     # Chiudo il pannello grafico dopo aver salvato l'immagine in .png
 
-# ---
-# 🔎 CLASSIFICAZIONE BINARIA (Vegetazione / Non vegetazione)
+# CLASSIFICAZIONE BINARIA (Vegetazione / Non vegetazione)
 # Visualizzo la distribuzione delle due NDVI con degli istogrammi per poter avere una classificazione più adeguata
 hist(ndvi_2015, main = "Distribuzione NDVI 2015", col = "darkgreen")
 hist(ndvi_2025, main = "Distribuzione NDVI 2025", col = "darkblue")
 
 class_matrix <- matrix(c(-Inf, 0.2, 1, 0.2, 0.4, 2, 0.4, Inf, 3), ncol = 3, byrow = TRUE)
 
-✅ 3. Classificazione NDVI
+# Classificazione NDVI
 ndvi_2015_cl <- classify(ndvi_2015, class_matrix)
 ndvi_2025_cl <- classify(ndvi_2025, class_matrix)
 
@@ -107,8 +100,7 @@ plot(ndvi_2015_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class.
 plot(ndvi_2025_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class. 2025")
 dev.off() # Chiudo il pannello grafico dopo aver salvato l'immagine in .png
 
-# ---    
-# 📊 Calcolo percentuali
+# Calcolo percentuali
 
 # Calcolo frequenze
 freq_2015 <- freq(ndvi_2015_cl)
@@ -143,9 +135,7 @@ p2 <- ggplot(tab, aes(x = classi, y = a2025, fill = classi)) +
 p1+p2        # Grazie al pacchetto patchwork posso affiancare i due grafici nella stessa immagine
 dev.off()    # Chiudo il pannello grafico dopo aver salvato l'immagine in .png
 
-
-# ---
-# 🔁 ANALISI MULTITEMPORALE
+# ANALISI MULTITEMPORALE
 
 # Differenza NIR (B8)
 nir_diff <- campoimp25[[4]] - campoimp15[[4]]
