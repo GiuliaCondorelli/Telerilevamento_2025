@@ -85,7 +85,7 @@ I valori ottenuti variano tra -1 e +1: valori vicini a +1 indicano vegetazione d
 L'NDVI è particolarmente utile per monitorare variazioni nella copertura vegetale nel tempo e valutare stress idrici, cambiamenti climatici o impatti antropici, come nel caso di pascoli intensivi.
 
 $` NDVI = \frac{(NIR - Red)}{(NIR + Red)} `$  
-Per semplificare si userà la funzione im.ndvi(), che è una funzione del pacchetto imageRy
+Per semplificare si userà la funzione im.ndvi(), che è una funzione del pacchetto imageRy   
 ndvi_2015 <- im.ndvi(campoimp15, 4, 1)    
 ndvi_2025 <- im.ndvi(campoimp25, 4, 1)  
 Per scegliere il range di valori adatto alla classificazione osservo gli istogrammi della distribuzione  dell'NDVI:
