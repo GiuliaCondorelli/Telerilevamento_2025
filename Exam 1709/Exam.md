@@ -69,6 +69,13 @@ dvi_2025 <- im.dvi(campoimp25, 4, 1)
 >[!NOTE]
 > Le funzioni im.ndvi() e im.dvi() sono esclusive del pacchetto imageRy.
 
+RGB
+
+RGB con banda blu
+
+# Analisi DVI
+
+
 # 🌿 Analisi NDVI
 
 L’NDVI è uno degli indici più utilizzati per misurare la densità e salute della vegetazione. I valori si distribuiscono tra -1 e 1.  
@@ -135,6 +142,8 @@ p2 <- ggplot(tab, aes(x = classi, y = a2025, fill = classi)) +
 p1 + p2      # Grazie al pacchetto patchwork si possono unire i grafici in questo modo
  ````
 ---
+
+ridgeline plot
 
 ## 📉 Differenze multitemporali
 ````md
