@@ -16,7 +16,8 @@ setwd("C://Users/giuli/OneDrive/telexam/")
 library(terra)       # Pacchetto per l'analisi spaziale dei dati con vettori e dati raster
 library(imageRy)     # Pacchetto per manipolare, visualizzare ed esportare immagini raster in R
 library(viridis)     # Pacchetto per cambiare le palette di colori anche per chi è affetto da colorblindness
-library(ggplot2)     # Pacchetto per creare grafici ggplot
+library(ggridges)    # Pacchetto per creare ridgeline plot
+library(ggplot2)     # Pacchetto per creare grafici a barre
 library(patchwork)   # Per la visualizzazione di più grafici assieme
 
 # ---
@@ -53,6 +54,16 @@ plot(campoimp25[[2]], main = "B3 - Green", col = magma(100))
 plot(campoimp25[[3]], main = "B2 - Blue", col = magma(100))
 plot(campoimp25[[4]], main = "B8 - NIR", col = magma(100))
 dev.off()          # Chiudo il pannello grafico dopo aver salvato l'immagine in .png
+
+# Le immagini col NIR (Near-InfraRed) sono molto importanti perchè sono quelle che ci permettono di osservare lo stato di salute della vegetazione. 
+Una minor riflessione del NIR mi indica una vegetazione sottoposta a stress. 
+
+# Dunque sostituendo la banda del blu al NIR posso evidenziare tutto ciò che è vegetazione in blu mentre tutto ciò che non lo è in giallo.
+im.multiframe(1,2)
+plotRGB(campoimp15, r = 1, g = 2, b = 4, stretch="lin", main = "Campo Imperatore, 2015")   # Imposto il NIR sulla banda Blu
+plotRGB(campoimp25, r = 1, g = 2, b = 4, stretch="lin", main = "Campo Imperatore, 2025")
+dev.off()          # Chiudo il pannello grafico dopo aver salvato l'immagine in .png
+# Si nota una evidente diminuzione del blu nell'immagine di quest'anno.
 
 # INDICI SPETTRALI
 # DIFFERENT VEGETATION INDEX - DVI
