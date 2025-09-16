@@ -5,7 +5,6 @@
 
 ---
 
-
 # 📌 Introduzione
 
 Il progetto **LIFE PRATERIE** (LIFE11/NAT/IT/234) propone la conservazione a lungo termine delle **praterie e dei pascoli** nel territorio del **Parco Nazionale del Gran Sasso e Monti della Laga**, con particolare attenzione all’equilibrio tra **attività produttive** (come il pascolo estensivo) e **tutela ambientale**.
