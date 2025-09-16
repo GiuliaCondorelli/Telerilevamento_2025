@@ -32,7 +32,7 @@ plot(campoimp25)
 dev.off()
 
 # Visualizzo entrambe le immagini in RGB creando un multiframe
-im.multiframe(1,2)  # Funzione del pacchetto imageRy che mi permette di aprire un pannello grafico dove poter affiancare delle immagini
+im.multiframe(1,2)  # Funzione del pacchetto imageRy che permette di aprire un pannello grafico dove poter affiancare delle immagini
 plotRGB(campoimp15, r = 1, g = 2, b = 3, stretch = "lin", main = "Campo Imperatore, 2015")
 plotRGB(campoimp25, r = 1, g = 2, b = 3, stretch = "lin", main = "Campo Imperatore, 2025")
 dev.off()           # Chiudo il pannello grafico dopo aver salvato l'immagine in .png
@@ -53,7 +53,7 @@ plot(campoimp25[[3]], main = "B2 - Blue", col = magma(100))
 plot(campoimp25[[4]], main = "B8 - NIR", col = magma(100))
 dev.off()          # Chiudo il pannello grafico dopo aver salvato l'immagine in .png
 
-# Le immagini col NIR (Near-InfraRed) sono molto importanti perché sono quelle che ci permettono di osservare lo stato di salute della vegetazione. 
+# Le immagini col NIR (Near-InfraRed) sono molto importanti perché sono quelle che permettono di osservare lo stato di salute della vegetazione. 
 # Una minor riflessione del NIR mi indica una vegetazione sottoposta a stress. 
 
 # Dunque, sostituendo la banda del blu al NIR posso evidenziare tutto ciò che è vegetazione in blu mentre tutto ciò che non lo è in giallo.
