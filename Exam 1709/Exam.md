@@ -66,7 +66,7 @@ campoimp25 <- rast("CampoImp2025.tif")
 ## Visualizzazione con colori reali (RGB)
  ````md
 # Creazione di un pannello multiframe dove poter affiancare le due immagini  
-im.multiframe(1,2)   
+im.multiframe(1,2)    # Funzione che fa parte del pacchetto imageRy
 # Utilizzo della funzione plotRGB() proveniente dal pacchetto imageRy  
 plotRGB(campoimp15, r = 1, g = 2, b = 3, stretch = "lin", main = "Campo Imperatore, 2015")   
 plotRGB(campoimp25, r = 1, g = 2, b = 3, stretch = "lin", main = "Campo Imperatore, 2025")   
@@ -74,7 +74,35 @@ plotRGB(campoimp25, r = 1, g = 2, b = 3, stretch = "lin", main = "Campo Imperato
 <p align="center">
 <img width="514" height="513" alt="CampoImpRGB" src="https://github.com/user-attachments/assets/cbe066b7-c7c1-4ef6-828a-cdf96856a449" />
   
-Sostituendo il NIR al posto della banda del blu, si evidenziano le zone di vegetazione (blu) e tutto ciò che non è vegetazione (giallo)
+ ````md    
+# Visualizzo le quattro bande separate (RGB e NIR) per entrambe le immagini    
+im.multiframe(2,2)  
+# Plotto ogni banda separatamente, per evitare sovrapposizioni  
+plot(campoimp15[[1]], main = "B4 - Red", col = magma(100))  
+plot(campoimp15[[2]], main = "B3 - Green", col = magma(100))  
+plot(campoimp15[[3]], main = "B2 - Blue", col = magma(100))  
+plot(campoimp15[[4]], main = "B8 - NIR", col = magma(100))  
+   ````
+  <p align="center">
+  <img width="514" height="513" alt="campoimp15magma" src="https://github.com/user-attachments/assets/f3080c82-749d-4f18-8821-931651f79404" /> 
+    
+````md
+# Faccio lo stesso con l'immagine di quest'anno  
+im.multiframe(2,2)  
+plot(campoimp25[[1]], main = "B4 - Red", col = magma(100))  
+plot(campoimp25[[2]], main = "B3 - Green", col = magma(100))  
+plot(campoimp25[[3]], main = "B2 - Blue", col = magma(100))  
+plot(campoimp25[[4]], main = "B8 - NIR", col = magma(100))
+  ````
+  <p align="center">
+<img width="514" height="513" alt="campoimp25magma" src="https://github.com/user-attachments/assets/96172aae-8da7-450f-af57-9a1c477f4efe" />  
+    
+> **Commento**
+>  
+> Le immagini col NIR (Near-InfraRed) sono molto importanti perchè sono quelle che ci permettono di osservare lo stato di salute della vegetazione. 
+> Una minor riflessione del NIR mi indica una vegetazione sottoposta a stress. 
+
+Sostituendo il NIR al posto della banda del blu, si evidenziano le zone di vegetazione (blu) e tutto ciò che non è vegetazione (giallo).
 
  ````md
  im.multiframe(1,2)  
@@ -82,29 +110,65 @@ plotRGB(campoimp15, r = 1, g = 2, b = 4, stretch="lin", main = "Campo Imperatore
 plotRGB(campoimp25, r = 1, g = 2, b = 4, stretch="lin", main = "Campo Imperatore, 2025")  
  ````
 <p align="center">
-<img width="514" height="513" alt="campoimpblu2015_2025" src="https://github.com/user-attachments/assets/b3928881-e598-4a8a-89b9-25fb57933724" />
+<img width="514" height="513" alt="campoimpblu2015_2025" src="https://github.com/user-attachments/assets/b3928881-e598-4a8a-89b9-25fb57933724" />  
+  
+> **Commento**  
+>  
+> L'immagine mostra chiaramente una diminuzione della vegetazione nella zona d'interesse.
 
-# Analisi DVI
+# 🌿 Analisi DVI
 
 Il DVI (Difference Vegetation Index) è uno dei più semplici indici spettrali utilizzati per valutare la presenza e la vitalità della vegetazione.
 Si calcola sottraendo la riflettanza nel rosso (Red) da quella nel vicino infrarosso (NIR):   
 DVI = NIR − Red    
 Le piante sane riflettono molto nel NIR e poco nel rosso, quindi valori alti di DVI indicano vegetazione vigorosa.
-È un indice non normalizzato, ma fornisce indicazioni dirette sulla biomassa verde e può essere utile per analisi comparative quando le condizioni di acquisizione sono simili.   
-dvi_2015 <- im.dvi(campoimp15, 4, 1)  
-dvi_2025 <- im.dvi(campoimp25, 4, 1)
+È un indice non normalizzato, ma fornisce indicazioni dirette sulla biomassa verde e può essere utile per analisi comparative quando le condizioni di acquisizione sono simili.
 
-# 🌿 Analisi NDVI
+ ````md
+# Per semplificare si userà la funzione im.dvi(), che è una funzione del pacchetto imageRy    
+dvi_2015 <- im.dvi(campoimp15, 4, 1)   
+dvi_2025 <- im.dvi(campoimp25, 4, 1)  
+ 
+# Visualizzazione della DVI
+im.multiframe(1, 2)
+plot(dvi_2015, col = viridis(100), main = "DVI 2015")
+plot(dvi_2025, col = viridis(100), main = "DVI 2025")
+
+ ````
+<p align="center">
+<img width="614" height="613" alt="DVI2015_2025" src="https://github.com/user-attachments/assets/f8e24d15-e7a2-434f-a2a2-ac8c669b494c" />
+
+````md
+# Calcolo e visualizzazione differenza DVI   
+dvi_diff <- dvi_2025 - dvi_2015   
+im.multiframe(1, 1)  
+plot(dvi_diff, col = magma(100), main = "Differenza DVI (2025 - 2015)")   
+ ````
+<p align="center">
+  <img width="514" height="513" alt="DIFFDVI2025_2015" src="https://github.com/user-attachments/assets/b86a6460-617a-47cd-a5ad-e1872f19c5ad" />
+  
+> **Commento**
+>  
+> Nell'immagine si vede come i colori facciano principalmente riferimento a valori negativi, il che indica una diminuzione dei valori di DVI e quindi una perdita di copertura vegetale.
+  
+# 🌿 Analisi NDVI (Normalized Difference Vegetation Index)
 Il NDVI è uno degli indici di vegetazione più diffusi in telerilevamento grazie alla sua capacità di normalizzare le differenze tra immagini acquisite in tempi o condizioni diverse.
 Si calcola come:
-NDVI = (NIR − Red) / (NIR + Red)
+NDVI = (NIR − Red) / (NIR + Red)  
+
 I valori ottenuti variano tra -1 e +1: valori vicini a +1 indicano vegetazione densa e sana, mentre valori prossimi a 0 o negativi indicano suolo nudo, rocce o acqua.
 L'NDVI è particolarmente utile per monitorare variazioni nella copertura vegetale nel tempo e valutare stress idrici, cambiamenti climatici o impatti antropici, come nel caso di pascoli intensivi.
 
 $` NDVI = \frac{(NIR - Red)}{(NIR + Red)} `$  
-Per semplificare si userà la funzione im.ndvi(), che è una funzione del pacchetto imageRy   
+
+ ````md
+# Per semplificare si userà la funzione im.ndvi(), che è una funzione del pacchetto imageRy   
 ndvi_2015 <- im.ndvi(campoimp15, 4, 1)    
-ndvi_2025 <- im.ndvi(campoimp25, 4, 1)  
+ndvi_2025 <- im.ndvi(campoimp25, 4, 1)
+# Creazione di un pannello multiframe isualizzazione NDVI
+im.multiframe(1, 2)
+plot(ndvi_2015, col = viridis(100), main = "NDVI 2015")
+plot(ndvi_2025, col = viridis(100), main = "NDVI 2025")
 Per scegliere il range di valori adatto alla classificazione osservo gli istogrammi della distribuzione  dell'NDVI:
  ````md
 hist(ndvi_2015, main = "NDVI 2015", col = "darkgreen")   
