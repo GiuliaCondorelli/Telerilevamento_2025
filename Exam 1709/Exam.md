@@ -45,7 +45,8 @@ setwd("C://Users/giuli/OneDrive/telexam/")
 ````md
 library(terra)  
 library(imageRy)  
-library(viridis)  
+library(viridis)
+library(ggridges)
 library(ggplot2)  
 library(patchwork)  
 ````
