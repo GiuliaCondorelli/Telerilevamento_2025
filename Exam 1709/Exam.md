@@ -98,8 +98,8 @@ plot(campoimp25[[4]], main = "B8 - NIR", col = magma(100))
     
 > **Commento**
 >  
-> Le immagini con il NIR (Near-InfraRed) sono molto importanti perchè sono quelle che ci permettono di osservare lo stato di salute della vegetazione. 
-> Una minor riflessione del NIR mi indica una vegetazione sottoposta a stress. 
+> Le immagini con il NIR (Near-InfraRed) sono molto importanti perchè sono quelle che permettono di osservare lo stato di salute della vegetazione. 
+> Una minor riflessione del NIR indica una vegetazione sottoposta a stress. 
 
 Sostituendo il NIR al posto della banda del blu, si evidenziano le zone di vegetazione (blu) e tutto ciò che non è vegetazione (giallo).
 
