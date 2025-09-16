@@ -8,7 +8,7 @@
 
 # 📌 Introduzione
 
-Il progetto **LIFE PRATERIE** (LIFE11/NAT/IT/234) si propone la conservazione a lungo termine delle **praterie e dei pascoli** nel territorio del **Parco Nazionale del Gran Sasso e Monti della Laga**, con particolare attenzione all’equilibrio tra **attività produttive** (come il pascolo estensivo) e **tutela ambientale**.
+Il progetto **LIFE PRATERIE** (LIFE11/NAT/IT/234) propone la conservazione a lungo termine delle **praterie e dei pascoli** nel territorio del **Parco Nazionale del Gran Sasso e Monti della Laga**, con particolare attenzione all’equilibrio tra **attività produttive** (come il pascolo estensivo) e **tutela ambientale**.
 
 Campo Imperatore rappresenta una delle aree più sensibili, interessata da:
 
@@ -61,38 +61,64 @@ campoimp25 <- rast("CampoImp2025.tif")
 > I raster campoimp15 e campoimp25 corrispondo al periodo che va da luglio a settembre rispettivamente dell'anno 2015 e 2025.
 
 ## Calcolo indici spettrali
+ ````md
 ndvi_2015 <- im.ndvi(campoimp15, 4, 1)  
 ndvi_2025 <- im.ndvi(campoimp25, 4, 1)  
 dvi_2015 <- im.dvi(campoimp15, 4, 1)  
-dvi_2025 <- im.dvi(campoimp25, 4, 1)  
+dvi_2025 <- im.dvi(campoimp25, 4, 1)
+ ````
+>[!NOTE]
+> Le funzioni im.ndvi() e im.dvi() sono esclusive del pacchetto imageRy.
 
 # 🌿 Analisi NDVI
 
-L’NDVI è uno degli indici più utilizzati per misurare la densità e salute della vegetazione. I valori si distribuiscono tra -1 e 1.
+L’NDVI è uno degli indici più utilizzati per misurare la densità e salute della vegetazione. I valori si distribuiscono tra -1 e 1.  
+$` NDVI = \frac{(NIR - Red)}{(NIR + Red)} `$
 
 Per scegliere il range di valori adatto alla classificazione osservo gli istogrammi della distribuzione  dell'NDVI:
-- hist(ndvi_2015, main = "NDVI 2015", col = "darkgreen")   
-- hist(ndvi_2025, main = "NDVI 2025", col = "darkblue")     
-
+ ````md
+hist(ndvi_2015, main = "NDVI 2015", col = "darkgreen")   
+hist(ndvi_2025, main = "NDVI 2025", col = "darkblue")
+ ```` 
 
 Classificazione per classi di vegetazione:
+ ````md
 class_matrix <- matrix(c(-Inf, 0.2, 1, 0.2, 0.4, 2, 0.4, Inf, 3), ncol = 3, byrow = TRUE)
 ndvi_2015_cl <- classify(ndvi_2015, class_matrix)
 ndvi_2025_cl <- classify(ndvi_2025, class_matrix)
+ ````
 
 ## Calcolo percentuali
+ ````md
+# Frequenze
 freq_2015 <- freq(ndvi_2015_cl)
 freq_2025 <- freq(ndvi_2025_cl)
+# Percentuali
 perc_2015 <- freq_2015$count * 100 / ncell(ndvi_2015_cl)
 perc_2025 <- freq_2025$count * 100 / ncell(ndvi_2025_cl)
+# Tabella
 tab <- data.frame(
   classi = c("Suolo nudo", "Vegetazione media", "Vegetazione sana"),
   a2015 = round(perc_2015, 2),
   a2025 = round(perc_2025, 2)
 )
 print(tab)
+           classi a2015 a2025  
+1        Suolo nudo  0.17  9.05  
+2 Vegetazione media 16.42 90.01    
+3  Vegetazione sana 83.41  0.94
+   ````
 
-Visualizzazione
+Si riportano i risultati in una tabella:
+
+| classi | a2015 | a2025 |
+|--- |--- |--- |
+|   1: Suolo nudo |  0.17%  |  9.05%  |
+|   2: Vegetazione media |16.42% |90.01% |
+|   3: Vegetazione sana |83.41% |0.94% |
+
+## Visualizzazione
+ ````md
 p1 <- ggplot(tab, aes(x = classi, y = a2015, fill = classi)) +
   geom_bar(stat = "identity") +
   scale_fill_viridis_d() +
@@ -107,15 +133,15 @@ p2 <- ggplot(tab, aes(x = classi, y = a2025, fill = classi)) +
   labs(title = "Classi NDVI 2025", y = "%", x = NULL) +
   theme_minimal()
 
-p1 + p2
-
-
+p1 + p2      # Grazie al pacchetto patchwork si possono unire i grafici in questo modo
+ ````
+---
 
 ## 📉 Differenze multitemporali
-ndvi_diff <- ndvi_2025 - ndvi_2015
+````md
+ndvi_diff <- ndvi_2025 - ndvi_2015  
 plot(ndvi_diff, col = viridis(100), main = "Differenza NDVI (2025 - 2015)")
-
-
+````
 Risultano evidenti zone di degrado vegetativo nei pressi delle aree sovraccariche di pascolo e lungo i principali assi turistici.
 
 ## 📌 Commenti e Conclusioni
@@ -134,11 +160,11 @@ L’uso del telerilevamento ha permesso un’analisi spaziale e temporale oggett
 
 ## 📎 Riferimenti
 
-LIFE11/NAT/IT/234 – PRATERIE: Sito ufficiale del progetto
+LIFE11/NAT/IT/234 – PRATERIE: [Sito ufficiale del progetto](http://www.lifepraterie.it/pagina.php?id=11)
 
 Documentazione Sentinel-2 ESA
 
-Pacchetti R: terra, imageRy, ggplot2, viridis, patchwork
+
 
 
 
