@@ -38,19 +38,23 @@ Le immagini sono state scaricate attraverso il sito web di [Google Earth Engine]
 > Il codice completo in JavaScript utilizzato per ottenere le immagini si trova nel file Codice_js_GC.js
 
 ## Impostazione della working directory
+````md
 setwd("C://Users/giuli/OneDrive/telexam/")
+````
 
 ## Caricamento pacchetti
+````md
 library(terra)  
 library(imageRy)  
 library(viridis)  
 library(ggplot2)  
 library(patchwork)  
-
+````
 ## Importazione raster Sentinel-2
+````md
 campoimp15 <- rast("CampoImp2015.tif")  
-campoimp25 <- rast("CampoImp2025.tif")  
-
+campoimp25 <- rast("CampoImp2025.tif")
+ ````
 
 > [!NOTE]
 >
