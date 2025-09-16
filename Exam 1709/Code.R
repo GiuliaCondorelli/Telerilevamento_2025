@@ -3,7 +3,7 @@
 # Giulia Condorelli
 
 # Le immagini vogliono mettere in evidenza i cambiamenti nella vegetazione nell'ultimo decennio a causa di pascoli poco regolamentati, aumentata siccità e elevato turismo
-# Grazie a Google Earth Engine sono state scaricate due immagini di Sentinel-2 (per il codice si veda lo script Codice.js)
+# Grazie a Google Earth Engine sono state scaricate due immagini di Sentinel-2 (per il codice si veda lo script Code.js)
 # La prima riguarda una mediana delle immagini dell'estate 2015, la seconda una mediana delle immagini dell'estate 2025
 
 # Il salvataggio delle immagini da R è stato fatto con il menù a tendina di R, in formato .png
