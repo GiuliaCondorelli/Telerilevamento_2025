@@ -64,6 +64,16 @@ campoimp25 <- rast("CampoImp2025.tif")
 > I raster campoimp15 e campoimp25 corrispondo al periodo che va da luglio a settembre rispettivamente dell'anno 2015 e 2025.  
 
 ## Visualizzazione con colori reali (RGB)
+ ````md
+# Creazione di un pannello multiframe dove poter affiancare le due immagini  
+im.multiframe(1,2)   
+# Utilizzo della funzione plotRGB() proveniente dal pacchetto imageRy  
+plotRGB(campoimp15, r = 1, g = 2, b = 3, stretch = "lin", main = "Campo Imperatore, 2015")   
+plotRGB(campoimp25, r = 1, g = 2, b = 3, stretch = "lin", main = "Campo Imperatore, 2025")   
+ ````
+<p align="center">
+<img width="414" height="413" alt="CampoImpRGB" src="https://github.com/user-attachments/assets/cbe066b7-c7c1-4ef6-828a-cdf96856a449" />
+
 
 ### 
 
