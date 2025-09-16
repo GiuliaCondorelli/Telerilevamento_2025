@@ -35,7 +35,7 @@ Le immagini sono state scaricate attraverso il sito web di [Google Earth Engine]
 
 > [!NOTE]
 >
-> Il codice completo in JavaScript utilizzato per ottenere le immagini si trova nel file Codice_js_GC.js
+> Il codice completo in JavaScript utilizzato per ottenere le immagini si trova nel file Codice.js
 
 ## Impostazione della working directory
 ````md
@@ -58,7 +58,7 @@ campoimp25 <- rast("CampoImp2025.tif")
 
 > [!NOTE]
 >
-> Il raster campoimp15 corrisponde ai dati di giugno 2015, mentre campoimp25 riguarda i dati di giugno 2025.
+> I raster campoimp15 e campoimp25 corrispondo al periodo che va da luglio a settembre rispettivamente dell'anno 2015 e 2025.
 
 ## Calcolo indici spettrali
 ndvi_2015 <- im.ndvi(campoimp15, 4, 1)  
