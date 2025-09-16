@@ -145,7 +145,7 @@ im.multiframe(1, 1)
 plot(dvi_diff, col = magma(100), main = "Differenza DVI (2025 - 2015)")   
  ````
 <p align="center">
-  <img width="514" height="513" alt="DIFFDVI2025_2015" src="https://github.com/user-attachments/assets/b86a6460-617a-47cd-a5ad-e1872f19c5ad" />
+  <img width="614" height="613" alt="DIFFDVI2025_2015" src="https://github.com/user-attachments/assets/b86a6460-617a-47cd-a5ad-e1872f19c5ad" />
   
 > **Commento**
 >  
@@ -169,11 +169,16 @@ ndvi_2025 <- im.ndvi(campoimp25, 4, 1)
 im.multiframe(1, 2)
 plot(ndvi_2015, col = viridis(100), main = "NDVI 2015")
 plot(ndvi_2025, col = viridis(100), main = "NDVI 2025")
-Per scegliere il range di valori adatto alla classificazione osservo gli istogrammi della distribuzione  dell'NDVI:
+````
+<p align="center">
+<img width="614" height="613" alt="NDVI2015_2025" src="https://github.com/user-attachments/assets/203cdfd5-1b97-42b5-82c4-cda827e9c5c8" />
+
+## Classificazione per classi di vegetazione
  ````md
+# Per scegliere il range di valori adatto alla classificazione osservo gli istogrammi della distribuzione  dell'NDVI:
 hist(ndvi_2015, main = "NDVI 2015", col = "darkgreen")   
 hist(ndvi_2025, main = "NDVI 2025", col = "darkblue")
- ````
+ ```` 
 <details>
 <summary>Istogrammi (cliccare qui)</summary>  
   
@@ -186,7 +191,7 @@ hist(ndvi_2025, main = "NDVI 2025", col = "darkblue")
 </details>
 
 
-Classificazione per classi di vegetazione:
+
  ````md
 class_matrix <- matrix(c(-Inf, 0.2, 1, 
                          0.2, 0.4, 2, 
