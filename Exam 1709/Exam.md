@@ -14,7 +14,11 @@ Campo Imperatore rappresenta una delle aree più sensibili, interessata da:
 - pascolo non regolamentato,
 - sovraccarico da parte del bestiame in specifiche zone,
 - ridotta disponibilità di infrastrutture (es. abbeveratoi),
-- impatto crescente del turismo su strada e escursionistico.
+- impatto crescente del turismo su strada e escursionistico.  
+  
+  <p align="center">
+  <img width="480" height="480" src="https://github.com/user-attachments/assets/136b5baa-19d8-411c-8e60-2fcae486efc9" />
+</p>
 
 ---
 
@@ -22,9 +26,8 @@ Campo Imperatore rappresenta una delle aree più sensibili, interessata da:
 
 L’obiettivo dell’elaborazione telerilevata in R è **monitorare i cambiamenti nella vegetazione** dal **2015 al 2025**, utilizzando immagini **Sentinel-2** e calcolando alcuni **indici spettrali**, in particolare:
 
+- **DVI** (Difference Vegetation Index)  
 - **NDVI** (Normalized Difference Vegetation Index)
-- **DVI** (Difference Vegetation Index)
-
 ---
 
 # 🧪 Data gathering e Metodologia
@@ -58,39 +61,62 @@ campoimp25 <- rast("CampoImp2025.tif")
 
 > [!NOTE]
 >
-> I raster campoimp15 e campoimp25 corrispondo al periodo che va da luglio a settembre rispettivamente dell'anno 2015 e 2025.
+> I raster campoimp15 e campoimp25 corrispondo al periodo che va da luglio a settembre rispettivamente dell'anno 2015 e 2025.  
 
-## Calcolo indici spettrali
- ````md
-ndvi_2015 <- im.ndvi(campoimp15, 4, 1)  
-ndvi_2025 <- im.ndvi(campoimp25, 4, 1)  
-dvi_2015 <- im.dvi(campoimp15, 4, 1)  
-dvi_2025 <- im.dvi(campoimp25, 4, 1)
- ````
->[!NOTE]
-> Le funzioni im.ndvi() e im.dvi() sono esclusive del pacchetto imageRy.
+## Visualizzazione con colori reali (RGB)
 
-RGB
-
-RGB con banda blu
+### 
 
 # Analisi DVI
 
+Il DVI (Difference Vegetation Index) è uno dei più semplici indici spettrali utilizzati per valutare la presenza e la vitalità della vegetazione.
+Si calcola sottraendo la riflettanza nel rosso (Red) da quella nel vicino infrarosso (NIR):   
+DVI = NIR − Red    
+Le piante sane riflettono molto nel NIR e poco nel rosso, quindi valori alti di DVI indicano vegetazione vigorosa.
+È un indice non normalizzato, ma fornisce indicazioni dirette sulla biomassa verde e può essere utile per analisi comparative quando le condizioni di acquisizione sono simili.   
+dvi_2015 <- im.dvi(campoimp15, 4, 1)  
+dvi_2025 <- im.dvi(campoimp25, 4, 1)
 
 # 🌿 Analisi NDVI
+Il NDVI è uno degli indici di vegetazione più diffusi in telerilevamento grazie alla sua capacità di normalizzare le differenze tra immagini acquisite in tempi o condizioni diverse.
+Si calcola come:
+NDVI = (NIR − Red) / (NIR + Red)
+I valori ottenuti variano tra -1 e +1: valori vicini a +1 indicano vegetazione densa e sana, mentre valori prossimi a 0 o negativi indicano suolo nudo, rocce o acqua.
+L'NDVI è particolarmente utile per monitorare variazioni nella copertura vegetale nel tempo e valutare stress idrici, cambiamenti climatici o impatti antropici, come nel caso di pascoli intensivi.
 
-L’NDVI è uno degli indici più utilizzati per misurare la densità e salute della vegetazione. I valori si distribuiscono tra -1 e 1.  
-$` NDVI = \frac{(NIR - Red)}{(NIR + Red)} `$
-
+$` NDVI = \frac{(NIR - Red)}{(NIR + Red)} `$  
+Per semplificare si userà la funzione im.ndvi(), che è una funzione del pacchetto imageRy
+ndvi_2015 <- im.ndvi(campoimp15, 4, 1)    
+ndvi_2025 <- im.ndvi(campoimp25, 4, 1)  
 Per scegliere il range di valori adatto alla classificazione osservo gli istogrammi della distribuzione  dell'NDVI:
  ````md
 hist(ndvi_2015, main = "NDVI 2015", col = "darkgreen")   
 hist(ndvi_2025, main = "NDVI 2025", col = "darkblue")
- ```` 
+ ````
+<details>
+<summary>Istogrammi (cliccare qui)</summary>  
+  
+<p align="center">
+<img width="414" height="413" alt="histNDVI2015" src="https://github.com/user-attachments/assets/59237733-25df-479f-8fef-9cd9e7085358" />
+
+<img width="414" height="413" alt="histNDVI2025" src="https://github.com/user-attachments/assets/b2ed5967-d200-4416-b284-787dcb8b4d5f" />
+</p>
+
+</details>
+
 
 Classificazione per classi di vegetazione:
  ````md
-class_matrix <- matrix(c(-Inf, 0.2, 1, 0.2, 0.4, 2, 0.4, Inf, 3), ncol = 3, byrow = TRUE)
+class_matrix <- matrix(c(-Inf, 0.2, 1, 
+                         0.2, 0.4, 2, 
+                         0.4, Inf, 3), 
+                       ncol = 3, byrow = TRUE)
+class_matrix
+     [,1] [,2] [,3]
+[1,] -Inf  0.2    1       # Se NDVI < 2 allora si associa una classe di tipo 1 (Suolo nudo)
+[2,]  0.2  0.4    2       # Se 0.2 ≤ NDVI < 0.4 allora si associa una classe di tipo 2 (Vegetazione media)
+[3,]  0.4  Inf    3       # Se NDVI ≥ 0.4 allora si associa una classe di tipo 3 (Vegetazione sana)  
+
 ndvi_2015_cl <- classify(ndvi_2015, class_matrix)
 ndvi_2025_cl <- classify(ndvi_2025, class_matrix)
  ````
