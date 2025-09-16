@@ -173,6 +173,8 @@ plot(ndvi_2025, col = viridis(100), main = "NDVI 2025")
 <p align="center">
 <img width="614" height="613" alt="NDVI2015_2025" src="https://github.com/user-attachments/assets/203cdfd5-1b97-42b5-82c4-cda827e9c5c8" />
 
+
+
 ## Classificazione per classi di vegetazione
  ````md
 # Per scegliere il range di valori adatto alla classificazione osservo gli istogrammi della distribuzione  dell'NDVI:
@@ -238,7 +240,7 @@ Si riportano i risultati in una tabella:
 
 ## Visualizzazione
  ````md
-p1 <- ggplot(tab, aes(x = classi, y = a2015, fill = classi)) +
+p1 <- ggplot(tab, aes(x = classi, y = a2015, fill = classi)) +    
   geom_bar(stat = "identity") +
   scale_fill_viridis_d() +
   ylim(0, 100) +
@@ -254,9 +256,19 @@ p2 <- ggplot(tab, aes(x = classi, y = a2025, fill = classi)) +
 
 p1 + p2      # Grazie al pacchetto patchwork si possono unire i grafici in questo modo
  ````
----
 
-ridgeline plot
+>[!IMPORTANT]
+> - ggplot(tab, aes(...)): inizializza il grafico dal data.frame tab.  
+> - geom_bar(): crea le barre del grafico.  
+> - scale_fill_viridis_d(): applica una palette a contrasto visivo compatibile con persone affette da daltonismo.  
+> - ylim(): impone che l'asse delle y vada da 0 a 100 (percentuali).  
+> - labs(): modifica titoli e etichette degli assi.  
+> - theme_minimal(): applica un tema minimale per rendere il grafico più pulito e leggibile.  
+
+<p align="center">
+  <img width="1192" height="613" alt="ggplotNDVI" src="https://github.com/user-attachments/assets/f014621c-8322-4fda-8517-b948bbdb2b19" />
+
+---
 
 ## 📉 Differenze multitemporali
 ````md
