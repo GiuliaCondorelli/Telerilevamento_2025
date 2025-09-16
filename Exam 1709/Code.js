@@ -1,3 +1,5 @@
+ le immagini sono state prese da : https://earthengine.google.com/
+
 // Immagine del 2015
 // Definisci area di interesse: Campo Imperatore
 var CampoImp = ee.Geometry.Rectangle([13.2, 42.2, 13.8, 42.7]);
