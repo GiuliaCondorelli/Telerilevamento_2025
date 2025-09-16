@@ -94,14 +94,29 @@ plot(ndvi_2015, col = viridis(100), main = "NDVI 2015")
 plot(ndvi_2025, col = viridis(100), main = "NDVI 2025")
 dev.off()     # Chiudo il pannello grafico dopo aver salvato l'immagine in .png
 
-DA INSERIRE GRAFICO RIDGELINE
+# Creazione ridgeline plot
+campoimp_ridg=c(ndvi_2015, ndvi_2025) # Creazione vettore per visualizzare le due immagini contemporaneamente
+names(campoimp_ridg) =c("NDVI 2015", "NDVI 2025") # Vettore con i nomi relativi alle due immagini
+im.ridgeline(campoimp_ridg, scale=2, palette="viridis")    # Applico la funzione im.ridgeline del pacchetto imageRy
+dev.off()     # Chiudo il pannello grafico dopo aver salvato l'immagine in .png
+# Si nota che la curva relativa al 2025 è più spostata verso sinistra e più stretta rispetto alla curva del 2015 e ciò potrebbe significare che ci sono più aree con vegetazione in sofferenza (valori NDVI più bassi) e con una copertura piuttosto omogenea (tutto degradato o tutto pascolo). 
 
 # CLASSIFICAZIONE BINARIA (Vegetazione / Non vegetazione)
 # Visualizzo la distribuzione delle due NDVI con degli istogrammi per poter avere una classificazione più adeguata
 hist(ndvi_2015, main = "Distribuzione NDVI 2015", col = "darkgreen")
 hist(ndvi_2025, main = "Distribuzione NDVI 2025", col = "darkblue")
 
-class_matrix <- matrix(c(-Inf, 0.2, 1, 0.2, 0.4, 2, 0.4, Inf, 3), ncol = 3, byrow = TRUE)
+# Creazione di una matrice di classificazione
+class_matrix <- matrix(c(-Inf, 0.2, 1, 
+                         0.2, 0.4, 2, 
+                         0.4, Inf, 3), 
+                       ncol = 3, byrow = TRUE)   # Matrice basata sui valori ricavati dagli istogrammi
+# Visualizzo la matrice a tre colonne
+class_matrix
+     [,1] [,2] [,3]
+[1,] -Inf  0.2    1       # Se NDVI < 2 allora si associa una classe di tipo 1 (Suolo nudo)
+[2,]  0.2  0.4    2       # Se 0.2 ≤ NDVI < 0.4 allora si associa una classe di tipo 2 (Vegetazione media)
+[3,]  0.4  Inf    3       # Se NDVI ≥ 0.4 allora si associa una classe di tipo 3 (Vegetazione sana)
 
 # Classificazione NDVI
 ndvi_2015_cl <- classify(ndvi_2015, class_matrix)
@@ -111,7 +126,7 @@ ndvi_2025_cl <- classify(ndvi_2025, class_matrix)
 im.multiframe(1, 2)
 plot(ndvi_2015_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class. 2015")
 plot(ndvi_2025_cl, col = c("orange", "yellow", "darkgreen"), main = "NDVI class. 2025")
-dev.off() # Chiudo il pannello grafico dopo aver salvato l'immagine in .png
+dev.off()                # Chiudo il pannello grafico dopo aver salvato l'immagine in .png
 
 # Calcolo percentuali
 
