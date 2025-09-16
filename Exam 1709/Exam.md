@@ -72,10 +72,17 @@ plotRGB(campoimp15, r = 1, g = 2, b = 3, stretch = "lin", main = "Campo Imperato
 plotRGB(campoimp25, r = 1, g = 2, b = 3, stretch = "lin", main = "Campo Imperatore, 2025")   
  ````
 <p align="center">
-<img width="414" height="413" alt="CampoImpRGB" src="https://github.com/user-attachments/assets/cbe066b7-c7c1-4ef6-828a-cdf96856a449" />
+<img width="514" height="513" alt="CampoImpRGB" src="https://github.com/user-attachments/assets/cbe066b7-c7c1-4ef6-828a-cdf96856a449" />
+  
+Sostituendo il NIR al posto della banda del blu, si evidenziano le zone di vegetazione (blu) e tutto ciò che non è vegetazione (giallo)
 
-
-### 
+ ````md
+ im.multiframe(1,2)  
+plotRGB(campoimp15, r = 1, g = 2, b = 4, stretch="lin", main = "Campo Imperatore, 2015")   
+plotRGB(campoimp25, r = 1, g = 2, b = 4, stretch="lin", main = "Campo Imperatore, 2025")  
+ ````
+<p align="center">
+<img width="514" height="513" alt="campoimpblu2015_2025" src="https://github.com/user-attachments/assets/b3928881-e598-4a8a-89b9-25fb57933724" />
 
 # Analisi DVI
 
