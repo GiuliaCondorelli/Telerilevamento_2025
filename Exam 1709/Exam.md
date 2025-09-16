@@ -98,7 +98,7 @@ plot(campoimp25[[4]], main = "B8 - NIR", col = magma(100))
     
 > **Commento**
 >  
-> Le immagini col NIR (Near-InfraRed) sono molto importanti perchè sono quelle che ci permettono di osservare lo stato di salute della vegetazione. 
+> Le immagini con il NIR (Near-InfraRed) sono molto importanti perchè sono quelle che ci permettono di osservare lo stato di salute della vegetazione. 
 > Una minor riflessione del NIR mi indica una vegetazione sottoposta a stress. 
 
 Sostituendo il NIR al posto della banda del blu, si evidenziano le zone di vegetazione (blu) e tutto ciò che non è vegetazione (giallo).
@@ -117,11 +117,11 @@ plotRGB(campoimp25, r = 1, g = 2, b = 4, stretch="lin", main = "Campo Imperatore
 
 # 🌿 Analisi DVI
 
-Il DVI (Difference Vegetation Index) è uno dei più semplici indici spettrali utilizzati per valutare la presenza e la vitalità della vegetazione.
+Il DVI (Difference Vegetation Index) è uno dei più semplici indici spettrali utilizzati per valutare la presenza e la vitalità della vegetazione.   
 Si calcola sottraendo la riflettanza nel rosso (Red) da quella nel vicino infrarosso (NIR):   
-DVI = NIR − Red    
-Le piante sane riflettono molto nel NIR e poco nel rosso, quindi valori alti di DVI indicano vegetazione vigorosa.
-È un indice non normalizzato, ma fornisce indicazioni dirette sulla biomassa verde e può essere utile per analisi comparative quando le condizioni di acquisizione sono simili.
+$` DVI = NIR - Red `$   
+Le piante sane riflettono molto nel NIR e poco nel rosso, quindi valori alti di DVI indicano vegetazione vigorosa.   
+È un indice non normalizzato, ma fornisce indicazioni dirette sulla biomassa verde e può essere utile per analisi   comparative quando le condizioni di acquisizione sono simili.
 
  ````md
 # Per semplificare si userà la funzione im.dvi(), che è una funzione del pacchetto imageRy    
