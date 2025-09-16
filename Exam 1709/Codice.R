@@ -2,7 +2,6 @@
 # Telerilevamento geo-ecologico in R
 # Giulia Condorelli
 
-
 # Le immagini vogliono mettere in evidenza i cambiamenti nella vegetazione nell'ultimo decennio a causa di pascoli poco regolamentati, aumentata siccità e elevato turismo
 # Grazie a Google Earth Engine sono state scaricate due immagini di Sentinel-2 (per il codice si veda lo script Codice.js)
 # La prima riguarda una mediana delle immagini dell'estate 2015, la seconda una mediana delle immagini dell'estate 2025
@@ -20,7 +19,6 @@ library(ggridges)    # Pacchetto per creare ridgeline plot
 library(ggplot2)     # Pacchetto per creare grafici a barre
 library(patchwork)   # Per la visualizzazione di più grafici assieme
 
-# ---
 # IMPORTAZIONE DELLE IMMAGINI
 # Importo in R le immagini scaricate con Google Earth Engine
 campoimp15 <- rast("CampoImp2015.tif")
