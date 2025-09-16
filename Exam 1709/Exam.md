@@ -167,11 +167,11 @@ I dati supportano la necessità di regolamentare i pascoli, migliorare le infras
 
 L’uso del telerilevamento ha permesso un’analisi spaziale e temporale oggettiva, evidenziando come l’attività antropica (pascolo e turismo) impatti sulla biodiversità e sulla qualità degli habitat.
 
-## 📎 Riferimenti
+## 📎 Link utili
 
 LIFE11/NAT/IT/234 – PRATERIE: [Sito ufficiale del progetto](http://www.lifepraterie.it/pagina.php?id=11)
 
-Documentazione Sentinel-2 ESA
+Documentazione Sentinel-2 ESA - [Google Earth Engine](https://earthengine.google.com/)
 
 
 
