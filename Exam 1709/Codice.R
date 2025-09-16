@@ -94,6 +94,8 @@ plot(ndvi_2015, col = viridis(100), main = "NDVI 2015")
 plot(ndvi_2025, col = viridis(100), main = "NDVI 2025")
 dev.off()     # Chiudo il pannello grafico dopo aver salvato l'immagine in .png
 
+DA INSERIRE GRAFICO RIDGELINE
+
 # CLASSIFICAZIONE BINARIA (Vegetazione / Non vegetazione)
 # Visualizzo la distribuzione delle due NDVI con degli istogrammi per poter avere una classificazione più adeguata
 hist(ndvi_2015, main = "Distribuzione NDVI 2015", col = "darkgreen")
