@@ -76,7 +76,7 @@ plotRGB(campoimp25, r = 1, g = 2, b = 3, stretch = "lin", main = "Campo Imperato
  ````md    
 # Visualizzazione separata delle quattro bande (RGB e NIR) per entrambe le immagini    
 im.multiframe(2,2)  
-# Plotto ogni banda separatamente, per evitare sovrapposizioni  
+# Bande plottate separatamente, per evitare sovrapposizioni  
 plot(campoimp15[[1]], main = "B4 - Red", col = magma(100))  
 plot(campoimp15[[2]], main = "B3 - Green", col = magma(100))  
 plot(campoimp15[[3]], main = "B2 - Blue", col = magma(100))  
