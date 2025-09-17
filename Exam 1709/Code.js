@@ -1,4 +1,9 @@
- le immagini sono state prese da : https://earthengine.google.com/
+# PROGETTO D'ESAME (17/09/2025) - ANALISI DELL'IMPATTO DEI PASCOLI SULLA VEGETAZIONE DEL CAMPO IMPERATORE DAL 2015 AL 2025
+# Telerilevamento geo-ecologico in R
+# Giulia Condorelli
+
+# Le immagini sono state prese da : https://earthengine.google.com/
+# Di seguito il codice in JavaScript per scaricare le immagini di Sentinel-2
 
 // Immagine del 2015
 // Definisci area di interesse: Campo Imperatore
