@@ -217,7 +217,7 @@ class_matrix <- matrix(c(-Inf, 0.2, 1,
                        ncol = 3, byrow = TRUE)
 class_matrix
      [,1] [,2] [,3]
-[1,] -Inf  0.2    1       # Se NDVI < 2 allora si associa una classe di tipo 1 (Suolo nudo)
+[1,] -Inf  0.2    1       # Se NDVI < 0.2 allora si associa una classe di tipo 1 (Suolo nudo)
 [2,]  0.2  0.4    2       # Se 0.2 ≤ NDVI < 0.4 allora si associa una classe di tipo 2 (Vegetazione media)
 [3,]  0.4  Inf    3       # Se NDVI ≥ 0.4 allora si associa una classe di tipo 3 (Vegetazione sana)  
 
