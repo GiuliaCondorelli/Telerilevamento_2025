@@ -23,7 +23,7 @@ Campo Imperatore rappresenta una delle aree più sensibili, interessata da:
 
 # 🛰️ Obiettivo del Progetto in R
 
-L’obiettivo dell’elaborazione telerilevata in R è **monitorare i cambiamenti nella vegetazione** dal **2015 al 2025**, utilizzando immagini **Sentinel-2** e calcolando alcuni **indici spettrali**, in particolare:
+L’obiettivo dell’elaborazione telerilevata in R è **monitorare i cambiamenti nella vegetazione** dal **2015 al 2025**, utilizzando immagini **Sentinel-2** e calcolando due **indici spettrali**:
 
 - **DVI** (Difference Vegetation Index)  
 - **NDVI** (Normalized Difference Vegetation Index)
@@ -36,7 +36,7 @@ Le immagini sono state scaricate attraverso il sito web di [Google Earth Engine]
 
 > [!NOTE]
 >
-> Il codice completo in JavaScript utilizzato per ottenere le immagini si trova nel file Codice.js
+> Il codice completo in JavaScript utilizzato per ottenere le immagini si trova nel file Code.js
 
 ## Impostazione della working directory
 ````md
@@ -74,7 +74,7 @@ plotRGB(campoimp25, r = 1, g = 2, b = 3, stretch = "lin", main = "Campo Imperato
 <img width="514" height="513" alt="CampoImpRGB" src="https://github.com/user-attachments/assets/cbe066b7-c7c1-4ef6-828a-cdf96856a449" />
   
  ````md    
-# Visualizzo le quattro bande separate (RGB e NIR) per entrambe le immagini    
+# Visualizzazione separata delle quattro bande (RGB e NIR) per entrambe le immagini    
 im.multiframe(2,2)  
 # Plotto ogni banda separatamente, per evitare sovrapposizioni  
 plot(campoimp15[[1]], main = "B4 - Red", col = magma(100))  
@@ -86,7 +86,7 @@ plot(campoimp15[[4]], main = "B8 - NIR", col = magma(100))
   <img width="514" height="513" alt="campoimp15magma" src="https://github.com/user-attachments/assets/f3080c82-749d-4f18-8821-931651f79404" /> 
     
 ````md
-# Faccio lo stesso con l'immagine di quest'anno  
+# Stesso procedimento per l'immagine di quest'anno  
 im.multiframe(2,2)  
 plot(campoimp25[[1]], main = "B4 - Red", col = magma(100))  
 plot(campoimp25[[2]], main = "B3 - Green", col = magma(100))  
@@ -192,7 +192,8 @@ im.ridgeline(campoimp_ridg, scale=2, palette="viridis")
 
 ## Classificazione per classi di vegetazione
  ````md
-# Per scegliere il range di valori adatto alla classificazione osservo gli istogrammi della distribuzione  dell'NDVI:
+# Scelta del range di valori adatto alla classificazione   
+# Si fa riferimento agli istogrammi della distribuzione  dell'NDVI:
 hist(ndvi_2015, main = "NDVI 2015", col = "darkgreen")   
 hist(ndvi_2025, main = "NDVI 2025", col = "darkblue")
  ```` 
